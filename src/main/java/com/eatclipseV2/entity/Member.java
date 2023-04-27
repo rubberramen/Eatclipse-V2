@@ -1,5 +1,6 @@
 package com.eatclipseV2.entity;
 
+import com.eatclipseV2.domain.member.dto.MemberEditFormDto;
 import com.eatclipseV2.domain.member.dto.MemberFormDto;
 import com.eatclipseV2.entity.enums.Role;
 import lombok.Getter;
@@ -48,6 +49,17 @@ public class Member {
         member.setCash(0);
 
         return member;
+    }
+
+    public static MemberEditFormDto createEditForm(Member member) {
+        MemberEditFormDto dto = new MemberEditFormDto();
+        dto.setMemberId(member.getId());
+        dto.setName(member.getName());
+        dto.setNickName(member.getNickName());
+        dto.setCity(member.getAddress().getCity());
+        dto.setStreet(member.getAddress().getStreet());
+        dto.setZipcode(member.getAddress().getZipcode());
+        return dto;
     }
 
     public Member() {

@@ -2,6 +2,7 @@ package com.eatclipseV2.controller;
 
 import com.eatclipseV2.common.MessageDto;
 import com.eatclipseV2.common.StringConst;
+import com.eatclipseV2.domain.member.dto.MemberEditFormDto;
 import com.eatclipseV2.domain.member.dto.MemberFormDto;
 import com.eatclipseV2.domain.member.dto.MemberLoginForm;
 import com.eatclipseV2.entity.Member;
@@ -89,7 +90,8 @@ public class MemberController {
     public String chargeCash(@SessionAttribute(name = StringConst.LOGIN_MEMBER) Member loginMember,
                              Model model) {
 
-        Member member = memberService.getMemberInfo(loginMember.getNickName());
+        Member member = memberService.getMemberInfoByNickName(loginMember.getNickName());
+        model.addAttribute("member", member);
         model.addAttribute("currentCash", member.getCash());
 
         return "members/chargeCashForm";
@@ -100,18 +102,50 @@ public class MemberController {
                               @SessionAttribute(name = StringConst.LOGIN_MEMBER) Member loginMember,
                              Model model) {
         memberService.chargeCash(loginMember.getNickName(), amount);
-        Member member = memberService.getMemberInfo(loginMember.getNickName());
+        Member member = memberService.getMemberInfoByNickName(loginMember.getNickName());
         int currentCash = member.getCash();
         String message = String.valueOf(amount) + "원이 충전되어 현재 캐시는 " + currentCash + "원 입니다";
 
         MessageDto messageDto = new MessageDto(message, "/", RequestMethod.GET, null);
         return showMessageAndRedirect(messageDto, model);
     }
-    
 
+    @GetMapping("/{memberId}")
+    public String member(@SessionAttribute(name = StringConst.LOGIN_MEMBER) Member loginMember,
+                             @PathVariable Long memberId, Model model) {
+        Member member = memberService.getMemberInfoByMemberId(loginMember.getId());
+        MemberEditFormDto formDto = Member.createEditForm(member);
+        model.addAttribute("member", member);
+        model.addAttribute("formDto", formDto);
+        return "members/memberForm";
+    }
 
+    @GetMapping("/{memberId}/edit")
+    public String memberEdit(@SessionAttribute(name = StringConst.LOGIN_MEMBER) Member loginMember,
+                             @PathVariable Long memberId, Model model) {
+        Member member = memberService.getMemberInfoByMemberId(loginMember.getId());
+        MemberEditFormDto editForm = Member.createEditForm(member);
+        model.addAttribute("member", member);
+        model.addAttribute("editForm", editForm);
+        return "members/memberEditForm";
+    }
 
+    @PostMapping("/{memberId}/edit")
+    public String memberEdit(@SessionAttribute(name = StringConst.LOGIN_MEMBER) Member loginMember,
+                             @PathVariable Long memberId, Model model,
+                             @Valid MemberEditFormDto memberEditFormDto,
+                             BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "members/memberEditForm";
+        }
 
+        memberService.updateMemberInfo(memberEditFormDto);
+
+        MessageDto messageDto = new MessageDto("정보 수정이 완료되었습니다",
+                "/", RequestMethod.GET, null);
+
+        return showMessageAndRedirect(messageDto, model);
+    }
 
 
     private String showMessageAndRedirect(final MessageDto messageDto, Model model) {

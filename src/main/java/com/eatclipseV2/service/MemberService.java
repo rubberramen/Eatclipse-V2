@@ -1,10 +1,14 @@
 package com.eatclipseV2.service;
 
+import com.eatclipseV2.domain.member.dto.MemberEditFormDto;
 import com.eatclipseV2.domain.member.dto.MemberFormDto;
+import com.eatclipseV2.entity.Address;
 import com.eatclipseV2.entity.Member;
 import com.eatclipseV2.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -43,11 +47,24 @@ public class MemberService {
         memberRepository.save(member);
     }
 
-    public Member getMemberInfo(String nickName) {
+    public Member getMemberInfoByNickName(String nickName) {
         Member member = memberRepository.findByNickName(nickName);
         if (member == null) {
             return null;
         } else return member;
+    }
+
+    public Member getMemberInfoByMemberId(Long memberId) {
+        Optional<Member> findMember = memberRepository.findById(memberId);
+        return findMember.orElse(null);
+    }
+
+    public void updateMemberInfo(MemberEditFormDto memberEditFormDto) {
+        Member member = memberRepository.findByNickName(memberEditFormDto.getNickName());
+        member.setName(memberEditFormDto.getName());
+        Address address = new Address(memberEditFormDto.getCity(), memberEditFormDto.getStreet(), memberEditFormDto.getZipcode());
+        member.setAddress(address);
+        memberRepository.save(member);
     }
 
     private void validateDuplicateMember(Member member) {
