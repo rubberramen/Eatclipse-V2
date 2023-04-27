@@ -18,10 +18,10 @@ public class TestDataInit {
     @PostConstruct
     public void init() {
         Address addressMember = new Address("부산", "수영로", "389");
-        memberRepository.save(new Member("Wang", "rubberramen", "1234", addressMember, Role.USER));
+        memberRepository.save(new Member("Wang", "rubberramen", "1234", addressMember, Role.USER, 10000));
 
         Address addressAdmin = new Address("우주", "은하수", "000");
-        memberRepository.save(new Member("Admin", "admin", "1234", addressAdmin, Role.ADMIN));
+        memberRepository.save(new Member("Admin", "admin", "1234", addressAdmin, Role.ADMIN, 10000));
 
     }
 }

@@ -1,14 +1,10 @@
 package com.eatclipseV2.service;
 
 import com.eatclipseV2.domain.member.dto.MemberFormDto;
-import com.eatclipseV2.entity.Address;
 import com.eatclipseV2.entity.Member;
-import com.eatclipseV2.entity.enums.Role;
 import com.eatclipseV2.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -26,24 +22,37 @@ public class MemberService {
     }
 
     public Member login(String nickName, String password) {
-        List<Member> byNickName = memberRepository.findByNickName(nickName);
 
-        if (byNickName.isEmpty()) {
+        Member member = memberRepository.findByNickName(nickName);
+        if (member == null) {
             return null;
         }
-        for (Member member : byNickName) {
-            if (member.getPassword().equals(password)) {
-                return member;
-            } else {
-                return null;
-            }
-        }
-        return null;
+
+        if (member.getPassword().equals(password)) {
+            return member;
+        } else return null;
+
+    }
+
+    public void chargeCash(String nickName, int amount) {
+
+        Member member = memberRepository.findByNickName(nickName);
+        int oldAmount = member.getCash();
+        int newAmount = oldAmount + amount;
+        member.setCash(newAmount);
+        memberRepository.save(member);
+    }
+
+    public Member getMemberInfo(String nickName) {
+        Member member = memberRepository.findByNickName(nickName);
+        if (member == null) {
+            return null;
+        } else return member;
     }
 
     private void validateDuplicateMember(Member member) {
-        List<Member> findByNickName = memberRepository.findByNickName(member.getNickName());
-        if (!findByNickName.isEmpty()) {
+        Member findByNickName = memberRepository.findByNickName(member.getNickName());
+        if (findByNickName != null) {
             throw new IllegalStateException("이미 존재하는 회원입니다. 닉네임을 바꿔주세요");
         }
     }

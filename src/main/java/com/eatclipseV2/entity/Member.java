@@ -53,11 +53,12 @@ public class Member {
     public Member() {
     }
 
-    public Member(String name, String nickName, String password, Address address, Role role) {
+    public Member(String name, String nickName, String password, Address address, Role role, int cash) {
         this.name = name;
         this.nickName = nickName;
         this.password = password;
         this.address = address;
         this.role = role;
+        this.cash = cash;
     }
 }
