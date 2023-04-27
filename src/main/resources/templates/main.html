@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{template/layouts/layout1}">
+      layout:decorate="~{template/layouts/layout-main}">
 
 <title layout:fragment="title">
     Main
@@ -9,7 +9,22 @@
 
 <div layout:fragment="content">
 
-    <h2> 메인 </h2>
+    <div class="container">
+        <div class="jumbotron">
+            <p class="lead">로그인</p>
+            <p>
+                <a class="btn btn-lg btn-secondary" href="/members/login">고객 로그인</a>
+                <a class="btn btn-lg btn-secondary" href="/shops/login">식당 로그인</a>
+                <a class="btn btn-lg btn-secondary" href="/riders/login">라이더 로그인</a>
+            </p>
+            <p class="lead">회원 가입</p>
+            <p>
+                <a class="btn btn-lg btn-info" href="/members/new">고객 회원 가입</a>
+                <a class="btn btn-lg btn-info" href="/shops/new">식당 회원 가입</a>
+                <a class="btn btn-lg btn-info" href="/riders/new">라이더 회원 가입</a>
+            </p>
+        </div>
+    </div>
 
 </div>
 
