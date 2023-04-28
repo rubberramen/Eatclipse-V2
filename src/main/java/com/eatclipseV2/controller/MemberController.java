@@ -4,7 +4,7 @@ import com.eatclipseV2.common.MessageDto;
 import com.eatclipseV2.common.StringConst;
 import com.eatclipseV2.domain.member.dto.MemberEditFormDto;
 import com.eatclipseV2.domain.member.dto.MemberFormDto;
-import com.eatclipseV2.domain.member.dto.MemberLoginForm;
+import com.eatclipseV2.domain.member.dto.MemberLoginFormDto;
 import com.eatclipseV2.entity.Member;
 import com.eatclipseV2.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -49,19 +49,19 @@ public class MemberController {
     }
 
     @GetMapping("/login")
-    public String login(@ModelAttribute MemberLoginForm memberLoginForm, Model model) {
+    public String login(@ModelAttribute MemberLoginFormDto memberLoginFormDto, Model model) {
         return "members/memberLoginForm";
     }
 
     @PostMapping("/login")
-    public String login(@Valid MemberLoginForm memberLoginForm, BindingResult bindingResult,
+    public String login(@Valid MemberLoginFormDto memberLoginFormDto, BindingResult bindingResult,
                         @RequestParam(defaultValue = "/") String redirectURL,
                         HttpServletRequest request, Model model) {
         if (bindingResult.hasErrors()) {
             return "members/memberLoginForm";
         }
 
-        Member loginMember = memberService.login(memberLoginForm.getNickName(), memberLoginForm.getPassword());
+        Member loginMember = memberService.login(memberLoginFormDto.getNickName(), memberLoginFormDto.getPassword());
         log.info("loginMember : {}", loginMember);
 
         if (loginMember == null) {
@@ -130,12 +130,13 @@ public class MemberController {
         return "members/memberEditForm";
     }
 
-    @PostMapping("/{memberId}/edit")
+    @PostMapping("/{memberId}/edit")  // TODO: 2023-04-28 028 캐시 비어있는 것과 함께 
     public String memberEdit(@SessionAttribute(name = StringConst.LOGIN_MEMBER) Member loginMember,
                              @PathVariable Long memberId, Model model,
                              @Valid MemberEditFormDto memberEditFormDto,
                              BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
+//            model.addAttribute("member", loginMember);
             return "members/memberEditForm";
         }
 

@@ -13,18 +13,17 @@
         <div class="text-center">
             <h2>로그인</h2>
         </div>
-        <form action="" th:action th:object="${memberLoginFormDto}" method="post">
-            <div th:if="${#fields.hasGlobalErrors()}">
-                <p class="field-error" th:each="err : ${#fields.globalErrors()}"
-                   th:text="${err}">전체 오류 메시지</p>
+        <form action="" th:action th:object="${shopLoginFormDto}" method="post">
+            <div th:if="${errorMessage}">
+                <p class="field-error" th:text="${errorMessage}">전체 오류 메시지</p>
             </div>
-            <div class="field-error" th:if="${not #strings.isEmpty(loginFail)}" th:text="${loginFail}"><h3 > 실패 메시지 </h3></div>
+<!--            <div class="field-error" th:if="${not #strings.isEmpty(loginFail)}" th:text="${loginFail}"><h3 > 실패 메시지 </h3></div>-->
 
             <div>
-                <label for="nickName">닉네임</label>
-                <input type="text" id="nickName" th:field="*{nickName}" class="form-control"
-                       th:errorclass="field-error" placeholder="닉네임을 입력해 주세요">
-                <div class="field-error" th:errors="*{nickName}" />
+                <label for="name">식당명</label>
+                <input type="text" id="name" th:field="*{name}" class="form-control"
+                       th:errorclass="field-error" placeholder="식당명을 입력해 주세요">
+                <div class="field-error" th:errors="*{name}" />
             </div>
             <div>
                 <label for="password">비밀번호</label>

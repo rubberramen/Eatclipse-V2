@@ -25,4 +25,14 @@ public class Shop {
 
     @Enumerated
     private Category category;
+
+    public Shop() {
+    }
+
+    public Shop(String name, String password, Address address, Category category) {
+        this.name = name;
+        this.password = password;
+        this.address = address;
+        this.category = category;
+    }
 }
