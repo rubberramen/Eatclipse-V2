@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 
 @Controller
 @RequestMapping("/members")
@@ -101,7 +102,17 @@ public class MemberController {
     public String chargeCash(@RequestParam int amount,
                               @SessionAttribute(name = StringConst.LOGIN_MEMBER) Member loginMember,
                              Model model) {
+
+        if (amount < 10000) {
+            model.addAttribute("member", loginMember);
+            model.addAttribute("currentCash", loginMember.getCash());
+            model.addAttribute("error", "10,000원 이상 충전해 주세요");
+            return "members/chargeCashForm";
+        }
+
+        model.addAttribute("member", loginMember);
         memberService.chargeCash(loginMember.getNickName(), amount);
+
         Member member = memberService.getMemberInfoByNickName(loginMember.getNickName());
         int currentCash = member.getCash();
         String message = String.valueOf(amount) + "원이 충전되어 현재 캐시는 " + currentCash + "원 입니다";
@@ -133,10 +144,10 @@ public class MemberController {
     @PostMapping("/{memberId}/edit")  // TODO: 2023-04-28 028 캐시 비어있는 것과 함께 
     public String memberEdit(@SessionAttribute(name = StringConst.LOGIN_MEMBER) Member loginMember,
                              @PathVariable Long memberId, Model model,
-                             @Valid MemberEditFormDto memberEditFormDto,
+                             @Valid @ModelAttribute("editForm") MemberEditFormDto memberEditFormDto,
                              BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-//            model.addAttribute("member", loginMember);
+            model.addAttribute("member", loginMember);
             return "members/memberEditForm";
         }
 

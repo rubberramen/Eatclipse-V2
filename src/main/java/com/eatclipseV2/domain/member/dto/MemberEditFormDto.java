@@ -11,7 +11,7 @@ import javax.validation.constraints.NotEmpty;
 @Setter
 public class MemberEditFormDto {
 
-    private Long memberId;
+    private Long id;
 
     @NotBlank(message = "이름은 필수 값입니다.")
     private String name;

@@ -53,7 +53,7 @@ public class Member {
 
     public static MemberEditFormDto createEditForm(Member member) {
         MemberEditFormDto dto = new MemberEditFormDto();
-        dto.setMemberId(member.getId());
+        dto.setId(member.getId());
         dto.setName(member.getName());
         dto.setNickName(member.getNickName());
         dto.setCity(member.getAddress().getCity());
