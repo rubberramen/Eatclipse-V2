@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template/layouts/layout-shopLogin}">
+
+<title layout:fragment="title">
+    메뉴 추가
+</title>
+
+<div layout:fragment="content">
+
+    <div class="container">
+        <div class="text-center">
+            <h2>메뉴 추가</h2>
+        </div>
+        <form action="" th:action th:object="${menuFormDto}" method="post">
+            <!--<div th:if="${#fields.hasGlobalErrors()}">
+                <p class="field-error" th:each="err : ${#fields.globalErrors()}"
+                   th:text="${err}">전체 오류 메시지</p>
+            </div>
+            <div class="field-error" th:if="${not #strings.isEmpty(loginFail)}" th:text="${loginFail}"><h3 > 실패 메시지 </h3></div>-->
+
+            <div>
+                <label for="name">메뉴명</label>
+                <input type="text" id="name" th:field="*{name}" class="form-control"
+                       placeholder="메뉴명을 입력해 주세요">
+                <div class="field-error" th:errors="*{name}" />
+            </div>
+
+            <div>
+                <label for="price">가격</label>
+                <input type="number" id="price" th:field="*{price}" class="form-control">
+                <div class="field-error" th:errors="*{price}" />
+            </div>
+            <div>
+                <label for="menuDtl">메뉴 설명</label>
+                <input type="text" id="menuDtl" th:field="*{menuDtl}" class="form-control"
+                       placeholder="메뉴 설명을 입력해 주세요">
+                <div class="field-error" th:errors="*{menuDtl}" />
+            </div>
+            <div>
+                <label for="menuSellStatus">판매 상태</label>
+                <select class="form-control optionRed" th:field="*{menuSellStatus}">
+<!--                    <option value="">판매 상태 선택</option>-->
+                    <option th:value="${sell}" th:utext="${sell}">식당</option>
+                    <option th:value="${sold_out}" th:utext="${sold_out}">식당</option>
+                </select>
+            </div>
+
+            <hr class="my-4">
+            <div class="row">
+                <div class="col">
+                    <button class="w-100 btn btn-primary btn-lg" type="submit">
+                        메뉴 추가</button>
+                </div>
+                <div class="col">
+                    <button class="w-100 btn btn-secondary btn-lg"
+                            th:onclick="|location.href='@{/}'|"
+                            type="button">취소</button>
+                </div>
+            </div>
+        </form>
+
+    </div> <!-- /container -->
+
+</div>
+
+</html>

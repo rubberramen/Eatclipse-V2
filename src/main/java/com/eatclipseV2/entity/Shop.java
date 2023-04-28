@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -25,6 +27,9 @@ public class Shop {
 
     @Enumerated
     private Category category;
+
+    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
+    private List<Menu> menus = new ArrayList<>();
 
     public Shop() {
     }
