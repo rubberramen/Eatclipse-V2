@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-public class Shop {
+public class Shop extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

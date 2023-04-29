@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-public class OrderMenu {
+public class OrderMenu extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
