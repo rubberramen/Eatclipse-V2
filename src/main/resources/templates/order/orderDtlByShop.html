@@ -44,7 +44,7 @@
             </div>
 
             <hr class="my-4">
-            <div class="row">
+            <div class="row" th:if="${#strings.equals(order.orderStatus, 'ON_GOING')}">
                 <div class="col">
                     <button class="w-100 btn btn-primary btn-lg"
                             th:onclick="|location.href='@{/order/shop/{orderId}/response (orderId=${order.id}, orderStatus=accept)}'|"
@@ -56,6 +56,10 @@
                             th:onclick="|location.href='@{/order/shop/{orderId}/response (orderId=${order.id}, orderStatus=refuse)}'|"
                             type="button">주문 거절</button>
                 </div>
+            </div>
+
+            <div class="text-center" th:if="${#strings.equals(order.orderStatus, 'COMPLETE')}">
+                <h4 class="filed-error" style="color:red">주문 완료</h4>
             </div>
         </form>
 
