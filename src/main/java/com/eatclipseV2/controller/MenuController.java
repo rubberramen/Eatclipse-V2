@@ -92,8 +92,8 @@ public class MenuController {
         return showMessageAndRedirect(messageDto, model);
     }
 
-    @GetMapping("/{shopId}")
-    public String menuDtl(@SessionAttribute(name = StringConst.LOGIN_MEMBER) Member loginMember,
+    @GetMapping("/shop/{shopId}")
+    public String menus(@SessionAttribute(name = StringConst.LOGIN_MEMBER) Member loginMember,
                           @PathVariable Long shopId, Model model) {
 
         model.addAttribute("member", loginMember);
@@ -102,11 +102,8 @@ public class MenuController {
 
         List<Menu> menusByShopId = menuService.findMenusByShopId(shopId);
         model.addAttribute("menus", menusByShopId);
-//        model.addAttribute("sell", "SELL");
-//        model.addAttribute("sold_out", "SOLD_OUT");
         return "members/menus";
     }
-
 
     private String showMessageAndRedirect(final MessageDto messageDto, Model model) {
         model.addAttribute("params", messageDto);

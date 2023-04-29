@@ -8,6 +8,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "members")
@@ -37,6 +39,9 @@ public class Member {
 
 //    @OneToMany
 //    private List<Order> orders;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Order> orders = new ArrayList<>();
 
     public static Member createMember(MemberFormDto memberFormDto) {
 

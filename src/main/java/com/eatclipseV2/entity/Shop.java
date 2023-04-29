@@ -31,6 +31,9 @@ public class Shop {
     @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
     private List<Menu> menus = new ArrayList<>();
 
+    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
+    private List<Order> orders = new ArrayList<>();
+
     public Shop() {
     }
 

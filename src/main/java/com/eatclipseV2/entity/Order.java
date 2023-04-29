@@ -6,6 +6,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
@@ -25,4 +28,46 @@ public class Order {
 
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<OrderMenu> orderMenus = new ArrayList<>();
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "shop_id")
+    private Shop shop;
+
+    // 연관 관계 편의 메서드
+    public void setMember(Member member) {
+        this.member = member;
+        member.getOrders().add(this);
+    }
+
+    public void setShop(Shop shop) {
+        this.shop = shop;
+        shop.getOrders().add(this);
+    }
+
+    public void addOrderMenu(OrderMenu orderMenu) {
+        orderMenus.add(orderMenu);
+        orderMenu.setOrder(this);
+    }
+
+    // TODO: 2023-04-29 029 카트 기능 추가시 로직 수정 예정
+    public static Order createOrder(Member member, Shop shop, OrderMenu orderMenu) {
+        Order order = new Order();
+        order.setMember(member);
+        order.setShop(shop);
+        order.addOrderMenu(orderMenu);
+        order.setOrderStatus(OrderStatus.ON_GOING);
+
+        return order;
+    }
+
+    public int getTotalPrice() {
+        int totalPrice = 0;
+        int count = orderMenus.get(0).getCount();
+        int orderPrice = orderMenus.get(0).getOrderPrice();
+        totalPrice = count * orderPrice;
+        return totalPrice;
+    }
 }

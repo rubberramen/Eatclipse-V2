@@ -88,7 +88,7 @@
         <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item" sec:authorize="isAuthenticated()">
-                    <a class="nav-link" href="/members/logout">로그아웃</a>
+                    <a class="nav-link" href="/order/member/list">주문 목록</a>
                 </li>
                 <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -100,6 +100,9 @@
                         <!--                            <div class="dropdown-divider"></div>-->
                         <a class="dropdown-item" th:href="@{|/members/${member.id}/edit|}">정보 수정</a>
                     </div>
+                </li>
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <a class="nav-link" href="/members/logout">로그아웃</a>
                 </li>
             </ul>
             <div>
@@ -132,6 +135,9 @@
                 <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
                     <a class="nav-link" href="/menus/new">메뉴 등록</a>
                 </li>
+                <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
+                    <a class="nav-link" href="/order/shop/list">주문 목록</a>
+                </li>
 <!--                <li class="nav-item" sec:authorize="isAnonymous()">-->
 <!--                    <a class="nav-link" href="/members/new">회원 가입</a>-->
 <!--                </li>-->
@@ -147,8 +153,6 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="#">주문 이력</a>
-<!--                        <a class="dropdown-item" href="#">캐시 충전</a>-->
-                        <!--                            <div class="dropdown-divider"></div>-->
                         <a class="dropdown-item" href="#">정보 수정</a>
                     </div>
                 </li>

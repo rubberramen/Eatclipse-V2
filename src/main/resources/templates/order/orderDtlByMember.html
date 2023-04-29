@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template/layouts/layout-memberLogin}">
+
+<title layout:fragment="title">
+    Order
+</title>
+
+<div layout:fragment="content">
+
+    <div class="container">
+        <div>
+            <br>
+            <p th:text="|${member.nickName}님 환영합니다|"></p>
+        </div>
+
+        <div class="text-center">
+            <h2>주문 상세</h2>
+        </div>
+
+        <form th:action th:object="${orderMenu}" method="post">
+            <div>
+                <input type="hidden" id="id" th:field="*{id}" class="form-control" readonly>
+            </div>
+            <div>
+                <label for="name">메뉴명</label>
+                <input type="text" id="name" th:field="*{menu.name}" class="form-control" readonly>
+            </div>
+
+            <div>
+                <label for="price">가격</label>
+                <input type="number" id="price" th:field="*{orderPrice}" class="form-control" readonly>
+            </div>
+
+            <div>
+                <label for="count">메뉴 수량</label>
+                <input type="number" id="count" th:name="count" th:field="*{count}" class="form-control" readonly>
+            </div>
+
+            <div>
+                <label for="totalPrice">총 금액</label>
+                <input type="number" id="totalPrice" th:name="totalPrice" class="form-control" th:value="${totalPrice}" readonly>
+            </div>
+
+            <div class="field-error">
+                <label for="status">주문 상태</label>
+                <input type="text" id="status" th:name="status" class="form-control" th:value="${order.orderStatus}" readonly>
+            </div>
+
+            <hr class="my-4">
+        </form>
+
+    </div> <!-- /container -->
+</div>
+
+</html>

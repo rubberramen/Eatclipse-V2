@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template/layouts/layout-shopLogin}">
+
+<title layout:fragment="title">
+    Order
+</title>
+
+<div layout:fragment="content">
+
+    <div class="container">
+        <div>
+            <br>
+            <p th:text="|${shop.name}님 환영합니다|"></p>
+        </div>
+
+        <div class="text-center">
+            <h2>주문 상세</h2>
+        </div>
+
+        <form th:action th:object="${orderMenu}" method="post">
+            <div>
+                <input type="hidden" id="id" th:field="*{id}" class="form-control" readonly>
+            </div>
+            <div>
+                <label for="name">메뉴명</label>
+                <input type="text" id="name" th:field="*{menu.name}" class="form-control" readonly>
+            </div>
+
+            <div>
+                <label for="price">가격</label>
+                <input type="number" id="price" th:field="*{orderPrice}" class="form-control" readonly>
+            </div>
+
+            <div>
+                <label for="count">메뉴 수량</label>
+                <input type="number" id="count" th:name="count" th:field="*{count}" class="form-control" readonly>
+            </div>
+
+            <div>
+                <label for="totalPrice">총 금액</label>
+                <input type="number" id="totalPrice" th:name="totalPrice" class="form-control" th:value="${totalPrice}" readonly>
+            </div>
+
+            <hr class="my-4">
+            <div class="row">
+                <div class="col">
+                    <button class="w-100 btn btn-primary btn-lg"
+                            th:onclick="|location.href='@{/order/shop/{orderId}/response (orderId=${order.id}, orderStatus=accept)}'|"
+                            type="button">주문 접수</button>
+                </div>
+
+                <div class="col">
+                    <button class="w-100 btn btn-secondary btn-lg"
+                            th:onclick="|location.href='@{/order/shop/{orderId}/response (orderId=${order.id}, orderStatus=refuse)}'|"
+                            type="button">주문 거절</button>
+                </div>
+            </div>
+        </form>
+
+    </div> <!-- /container -->
+</div>
+
+</html>

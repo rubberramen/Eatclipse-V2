@@ -12,6 +12,7 @@
     <div class="container">
 
         <div>
+            <br>
             <p th:text="|${member.nickName}님 환영합니다|"></p>
         </div>
 
@@ -39,8 +40,7 @@
                 <td th:text="${menu.menuSellStatus}"></td>
 
                 <td>
-                    <a href="#"
-                       class="btn btn-light" role="button">🍗</a>
+                    <a href="#" th:href="@{/order/{menuId} (menuId = ${menu.id})}" class="btn btn-light" role="button">🍕</a>
                 </td>
             </tr>
             </tbody>

@@ -26,4 +26,16 @@ public class OrderMenu {
     private int orderPrice;
 
     private int count;
+
+    public OrderMenu() {
+    }
+
+    public static OrderMenu createOrderMenu(Menu menu, int count) {
+        OrderMenu orderMenu = new OrderMenu();
+        orderMenu.setMenu(menu);
+        orderMenu.setOrderPrice(menu.getPrice());
+        orderMenu.setCount(count);
+
+        return orderMenu;
+    }
 }

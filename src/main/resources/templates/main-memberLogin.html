@@ -12,6 +12,7 @@
     <div class="container">
 
         <div>
+            <br>
             <p th:text="|${member.nickName}님 환영합니다|"></p>
         </div>
 
@@ -25,7 +26,6 @@
                 <th>#</th>
                 <th>식당명</th>
                 <th>카테고리</th>
-<!--                <th>설명</th>-->
                 <th>메뉴 보기</th>
             </tr>
             </thead>
@@ -34,9 +34,8 @@
                 <td th:text="${shopStat.count}"></td>
                 <td><a th:href="@{/}" th:text="${shop.name}"></a></td>
                 <td th:text="${shop.category}"></td>
-<!--                <td th:text="${menu.menuDtl}"></td>-->
                 <td>
-                    <a href="#" th:href="@{/menus/{shopId} (shopId = ${shop.id})}"
+                    <a href="#" th:href="@{/menus/shop/{shopId} (shopId = ${shop.id})}"
                        class="btn btn-light" role="button">🍗</a>
                 </td>
             </tr>

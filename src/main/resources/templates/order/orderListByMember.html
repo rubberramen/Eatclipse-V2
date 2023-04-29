@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template/layouts/layout-memberLogin}">
+
+<title layout:fragment="title">
+    Member Order
+</title>
+
+<div layout:fragment="content">
+
+    <div class="container">
+
+        <div>
+            <br>
+            <p th:text="|${member.nickName}님 환영합니다|"></p>
+        </div>
+
+        <div class="text-center">
+            <br>
+            <h2>주문 목록</h2>
+        </div>
+        <hr>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>식당명</th>
+                <th>카테고리</th>
+                <th>주문 상태</th>
+                <th>상세 내역</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${orders}">
+                <td th:text="${orderStat.count}"></td>
+                <td><a th:href="@{/}" th:text="${order.shop.name}"></a></td>
+                <td th:text="${order.shop.category}"></td>
+                <td class="field-error" th:if="${#strings.equals(order.orderStatus, 'ON_GOING')}" th:text="'접수 중'"></td>
+                <td class="field-error" th:if="${#strings.equals(order.orderStatus, 'CANCLE')}" th:text="'주문 취소'"></td>
+                <td class="field-error" th:if="${#strings.equals(order.orderStatus, 'COMPLETE')}" th:text="'주문 완료'"></td>
+                <td>
+                    <a href="#" class="btn btn-light" th:href="@{/order/member/{orderId} (orderId = ${order.id})}"
+                       role="button">🍗</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</html>
