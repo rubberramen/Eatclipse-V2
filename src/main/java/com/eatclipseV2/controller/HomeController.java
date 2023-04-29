@@ -5,6 +5,7 @@ import com.eatclipseV2.entity.Member;
 import com.eatclipseV2.entity.Menu;
 import com.eatclipseV2.entity.Shop;
 import com.eatclipseV2.service.MenuService;
+import com.eatclipseV2.service.ShopService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +22,7 @@ import java.util.List;
 public class HomeController {
 
     private final MenuService menuService;
+    private final ShopService shopService;
 
     @GetMapping
     public String main(HttpServletRequest request, Model model) {
@@ -31,52 +33,27 @@ public class HomeController {
             return "main";
         }
 
+        // 식당
         if (session.getAttribute(StringConst.LOGIN_SHOP) != null) {
             Shop shop = (Shop) session.getAttribute(StringConst.LOGIN_SHOP);
             model.addAttribute("shop", shop);
             List<Menu> menus = menuService.findMenusByShopId(shop.getId());
             model.addAttribute("menus", menus);
-            // 테스트
-            model.addAttribute("test", "test");
             return "main-shopLogin";
         }
 
+        // 고객
         if (session.getAttribute(StringConst.LOGIN_MEMBER) != null) {
             Member member = (Member) session.getAttribute(StringConst.LOGIN_MEMBER);
             model.addAttribute("member", member);
+
+            List<Shop> shops = shopService.findAllShop();
+            model.addAttribute("shops", shops);
+
+
             return "main-memberLogin";
         }
 
         return "main";
     }
-
-
-
-//    @GetMapping
-//    public String main(HttpServletRequest request, Model model) {
-//
-//        HttpSession session = request.getSession(false);
-//
-//        if (session != null) {
-//
-//            if (session.getAttribute(StringConst.LOGIN_SHOP) == null) {
-//                return "main";
-//            } else if (session.getAttribute(StringConst.LOGIN_SHOP) != null){
-//                Shop shop = (Shop) session.getAttribute(StringConst.LOGIN_SHOP);
-//                model.addAttribute("shop", shop);
-//                return "main-shopLogin";
-//            }
-//
-//            if (session.getAttribute(StringConst.LOGIN_MEMBER) == null) {
-//                return "main";
-//            } else if (session.getAttribute(StringConst.LOGIN_MEMBER) != null) {
-//                Member member = (Member) session.getAttribute(StringConst.LOGIN_MEMBER);
-//                model.addAttribute("member", member);
-//                return "main-memberLogin";
-//            }
-//
-//        } else return "main";
-//
-//        return "main";
-//    }
 }

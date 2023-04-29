@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -30,5 +32,13 @@ public class ShopService {
                 throw new IllegalStateException("비밀번호가 일치하지 않습니다");
             }
         }
+    }
+
+    public List<Shop> findAllShop() {
+        return shopRepository.findAll();
+    }
+
+    public Shop findShop(Long shopId) {
+        return shopRepository.findById(shopId).get();
     }
 }

@@ -3,9 +3,11 @@ package com.eatclipseV2.controller;
 import com.eatclipseV2.common.MessageDto;
 import com.eatclipseV2.common.StringConst;
 import com.eatclipseV2.domain.menu.dto.MenuFormDto;
+import com.eatclipseV2.entity.Member;
 import com.eatclipseV2.entity.Menu;
 import com.eatclipseV2.entity.Shop;
 import com.eatclipseV2.service.MenuService;
+import com.eatclipseV2.service.ShopService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -20,6 +23,7 @@ import javax.validation.Valid;
 public class MenuController {
 
     private final MenuService menuService;
+    private final ShopService shopService;
 
     @GetMapping("/new")
     public String addMenu(@SessionAttribute(name = StringConst.LOGIN_SHOP) Shop loginShop,
@@ -86,6 +90,21 @@ public class MenuController {
         MessageDto messageDto = new MessageDto("메뉴 삭제가 완료되었습니다.",
                 "/", RequestMethod.GET, null);
         return showMessageAndRedirect(messageDto, model);
+    }
+
+    @GetMapping("/{shopId}")
+    public String menuDtl(@SessionAttribute(name = StringConst.LOGIN_MEMBER) Member loginMember,
+                          @PathVariable Long shopId, Model model) {
+
+        model.addAttribute("member", loginMember);
+        Shop shop = shopService.findShop(shopId);
+        model.addAttribute("shop", shop);
+
+        List<Menu> menusByShopId = menuService.findMenusByShopId(shopId);
+        model.addAttribute("menus", menusByShopId);
+//        model.addAttribute("sell", "SELL");
+//        model.addAttribute("sold_out", "SOLD_OUT");
+        return "members/menus";
     }
 
 

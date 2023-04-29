@@ -4,7 +4,7 @@
       layout:decorate="~{template/layouts/layout-memberLogin}">
 
 <title layout:fragment="title">
-    Member Main
+    Menus
 </title>
 
 <div layout:fragment="content">
@@ -16,27 +16,30 @@
         </div>
 
         <div class="text-center">
-            <h2>식당</h2>
+            <h2 th:text="|${shop.name} 메뉴|">메뉴</h2>
         </div>
         <hr>
         <table class="table table-striped">
             <thead>
             <tr>
                 <th>#</th>
-                <th>식당명</th>
-                <th>카테고리</th>
-<!--                <th>설명</th>-->
-                <th>메뉴 보기</th>
+                <th>메뉴명</th>
+                <th>가격</th>
+                <th>설명</th>
+                <th>판매 상태</th>
+                <th>주문 하기</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="shop : ${shops}">
-                <td th:text="${shopStat.count}"></td>
-                <td><a th:href="@{/}" th:text="${shop.name}"></a></td>
-                <td th:text="${shop.category}"></td>
-<!--                <td th:text="${menu.menuDtl}"></td>-->
+            <tr th:each="menu : ${menus}">
+                <td th:text="${menuStat.count}"></td>
+                <td><a th:href="@{/}" th:text="${menu.name}"></a></td>
+                <td th:text="${menu.price}"></td>
+                <td th:text="${menu.menuDtl}"></td>
+                <td th:text="${menu.menuSellStatus}"></td>
+
                 <td>
-                    <a href="#" th:href="@{/menus/{shopId} (shopId = ${shop.id})}"
+                    <a href="#"
                        class="btn btn-light" role="button">🍗</a>
                 </td>
             </tr>
