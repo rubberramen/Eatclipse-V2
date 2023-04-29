@@ -65,7 +65,7 @@ public class MemberService {
         member.setName(memberEditFormDto.getName());
         Address address = new Address(memberEditFormDto.getCity(), memberEditFormDto.getStreet(), memberEditFormDto.getZipcode());
         member.setAddress(address);
-        memberRepository.save(member);
+//        memberRepository.save(member);
     }
 
     private void validateDuplicateMember(Member member) {

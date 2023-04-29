@@ -22,7 +22,7 @@ public class OrderService {
     private final ShopRepository shopRepository;
     private final MemberRepository memberRepository;
     
-    public Long order(Long memberId, Long shopId, Long menuId, int count) {
+    public Long makeOrder(Long memberId, Long shopId, Long menuId, int count) {
 
         // 엔티티 조회 : 멤버, 식당, 메뉴
         Member member = memberRepository.findById(memberId).get();
@@ -49,15 +49,17 @@ public class OrderService {
         return orderRepository.findByShopIdOrderByIdDesc(shopId);
     }
 
-    public Order orderByOrderId(Long orderId) {
+    public Order findOrderByOrderId(Long orderId) {
         return orderRepository.findById(orderId).get();
     }
 
     public void shopResponse(Long orderId, String orderStatus) {
-        Order order = orderByOrderId(orderId);
+        Order order = findOrderByOrderId(orderId);
+        int totalPrice = order.getTotalPrice();
 
         if (orderStatus.equals("accept")) {
             order.setOrderStatus(OrderStatus.COMPLETE);
+            order.getMember().minusCash(totalPrice);
         } else {
             order.setOrderStatus(OrderStatus.CANCLE);
         }

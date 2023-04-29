@@ -37,14 +37,18 @@ public class OrderController {
 
     @PostMapping
     public String order(@SessionAttribute(name = StringConst.LOGIN_MEMBER) Member loginMember,
-                        Model model, @RequestParam int count, @RequestParam("id") Long menuId,
-                        @RequestParam("shopId") Long shopId) {
+                        @RequestParam("shopId") Long shopId, @RequestParam("id") Long menuId,
+                        @RequestParam int count, Model model) {
         model.addAttribute("member", loginMember);
 
-        orderService.order(loginMember.getId(), shopId, menuId, count);
+        Long orderId = orderService.makeOrder(loginMember.getId(), shopId, menuId, count);
+        Order order = orderService.findOrderByOrderId(orderId);
+        int orderPrice = order.getOrderPrice();
+        int totalPrice = order.getTotalPrice();
 
-        MessageDto messageDto = new MessageDto("주문이 되었습니다. 식당에서 접수할 예정입니다.",
-                "/order/member/list", RequestMethod.GET, null);
+        MessageDto messageDto = new MessageDto("주문이 되었습니다. 식당에서 접수할 예정입니다. (주문 금액 : "
+                + orderPrice + "원, 배달 금액 : 3000원, 총 금액 : " + totalPrice + "원",
+                "/order/member/" + orderId, RequestMethod.GET, null);
 
         return showMessageAndRedirect(messageDto, model);
     }
@@ -72,10 +76,10 @@ public class OrderController {
                                  Model model, @PathVariable Long orderId) {
 
         model.addAttribute("shop", loginShop);
-        Order order = orderService.orderByOrderId(orderId);
-        int totalPrice = order.getTotalPrice();
+        Order order = orderService.findOrderByOrderId(orderId);
+        int orderPrice = order.getOrderPrice();
         model.addAttribute("order", order);
-        model.addAttribute("totalPrice", totalPrice);
+        model.addAttribute("orderPrice", orderPrice);
 
         // TODO: 2023-04-29 029 Cart 기능 시 수정 예정
         OrderMenu orderMenu = order.getOrderMenus().get(0);
@@ -110,10 +114,14 @@ public class OrderController {
                                  Model model, @PathVariable Long orderId) {
 
         model.addAttribute("member", loginMember);
-        Order order = orderService.orderByOrderId(orderId);
+        Order order = orderService.findOrderByOrderId(orderId);
+        int orderPrice = order.getOrderPrice();
         int totalPrice = order.getTotalPrice();
+
         model.addAttribute("order", order);
+        model.addAttribute("orderPrice", orderPrice);
         model.addAttribute("totalPrice", totalPrice);
+
 
         // TODO: 2023-04-29 029 Cart 기능 시 수정 예정
         OrderMenu orderMenu = order.getOrderMenus().get(0);

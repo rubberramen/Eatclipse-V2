@@ -141,7 +141,7 @@ public class MemberController {
         return "members/memberEditForm";
     }
 
-    @PostMapping("/{memberId}/edit")  // TODO: 2023-04-28 028 캐시 비어있는 것과 함께 
+    @PostMapping("/{memberId}/edit")
     public String memberEdit(@SessionAttribute(name = StringConst.LOGIN_MEMBER) Member loginMember,
                              @PathVariable Long memberId, Model model,
                              @Valid @ModelAttribute("editForm") MemberEditFormDto memberEditFormDto,

@@ -78,4 +78,8 @@ public class Member extends BaseEntity {
         this.role = role;
         this.cash = cash;
     }
+
+    public void minusCash(int amount) {
+        cash -= amount;
+    }
 }
