@@ -7,11 +7,13 @@ import com.eatclipseV2.entity.Member;
 import com.eatclipseV2.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class MemberService {
 
     private final MemberRepository memberRepository;
@@ -44,7 +46,6 @@ public class MemberService {
         int oldAmount = member.getCash();
         int newAmount = oldAmount + amount;
         member.setCash(newAmount);
-        memberRepository.save(member);
     }
 
     public Member getMemberInfoByNickName(String nickName) {

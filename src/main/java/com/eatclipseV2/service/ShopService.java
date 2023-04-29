@@ -16,11 +16,6 @@ public class ShopService {
 
     private final ShopRepository shopRepository;
 
-//    public Shop saveShop(ShopLoginFormDto shopLoginFormDto) {
-//        Shop shop = shopLoginFormDto.createShop();
-//
-//    }
-
     public Shop loginShop(String name, String password) {
         Shop shop = shopRepository.findByName(name);
         if (shop == null) {

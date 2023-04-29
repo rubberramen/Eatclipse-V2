@@ -61,6 +61,5 @@ public class OrderService {
         } else {
             order.setOrderStatus(OrderStatus.CANCLE);
         }
-        orderRepository.save(order);
     }
 }
