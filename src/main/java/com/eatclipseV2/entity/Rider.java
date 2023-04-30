@@ -25,4 +25,13 @@ public class Rider {
 
     @OneToMany(mappedBy = "rider", cascade = CascadeType.ALL)
     private List<Delivery> deliveryList = new ArrayList<>();
+
+    public Rider() {
+    }
+
+    public Rider(String name, String nickName, String password) {
+        this.name = name;
+        this.nickName = nickName;
+        this.password = password;
+    }
 }

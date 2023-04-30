@@ -17,6 +17,7 @@ public class Delivery {
     private Long id;
 
     @OneToOne
+    @JoinColumn(name = "order_id")
     private Order order;
 
     @Enumerated(EnumType.STRING)
@@ -25,5 +26,20 @@ public class Delivery {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rider_id")
     private Rider rider;
+
+    // 연관관계 편의 메서드
+    public void setRider(Rider rider) {
+        this.rider = rider;
+        rider.getDeliveryList().add(this);
+    }
+
+    public static Delivery createDelivery(Order order) {
+        Delivery delivery = new Delivery();
+
+        delivery.setDeliveryStatus(DeliveryStatus.BEFORE);
+        delivery.setOrder(order);
+
+        return delivery;
+    }
 }
 

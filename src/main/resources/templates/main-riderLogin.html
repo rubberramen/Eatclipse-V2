@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template/layouts/layout-riderLogin}">
+
+<title layout:fragment="title">
+    Member Main
+</title>
+
+<div layout:fragment="content">
+
+    <div class="container">
+
+        <div>
+            <br>
+            <p th:text="|${rider.nickName}님 환영합니다|"></p>
+        </div>
+
+        <div class="text-center">
+            <h2>주문</h2>
+        </div>
+        <hr>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>식당명</th>
+                <th>배달 주소</th>
+                <th>배달 상태</th>
+                <th>배달 수락</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${orders}">
+                <td th:text="${orderStat.count}"></td>
+                <td><a th:href="@{/}" th:text="${order.shop.name}"></a></td>
+                <td th:text="|${order.member.address.city} ${order.member.address.street} ${order.member.address.zipcode}|"></td>
+
+                <td th:text="${order.delivery.deliveryStatus}"></td>
+                <td>
+                    <a href="#" th:href="@{/riders/{orderId} (orderId=${order.id})}"
+                       class="btn btn-light" role="button">🛵</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</html>

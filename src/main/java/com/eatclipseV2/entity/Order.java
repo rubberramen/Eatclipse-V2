@@ -36,6 +36,9 @@ public class Order extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, fetch = LAZY)
+    private Delivery delivery;
+
     // 연관 관계 편의 메서드
     public void setMember(Member member) {
         this.member = member;
@@ -45,6 +48,11 @@ public class Order extends BaseEntity {
     public void setShop(Shop shop) {
         this.shop = shop;
         shop.getOrders().add(this);
+    }
+
+    public void setDelivery(Delivery delivery) {
+        this.delivery = delivery;
+        delivery.setOrder(this);
     }
 
     public void addOrderMenu(OrderMenu orderMenu) {
@@ -59,6 +67,10 @@ public class Order extends BaseEntity {
         order.setShop(shop);
         order.setOrderStatus(OrderStatus.ON_GOING);
 
+        // Delivery 생성
+        Delivery delivery = Delivery.createDelivery(order);
+        order.setDelivery(delivery);
+
         for (OrderMenu orderMenu : orderMenus) {
             order.addOrderMenu(orderMenu);
         }
@@ -68,9 +80,7 @@ public class Order extends BaseEntity {
 
     public int getOrderPrice() {
         int orderPrice = 0;
-//        int count = orderMenus.get(0).getCount();
-//        int orderPrice = orderMenus.get(0).getOrderPrice();
-//        totalPrice = count * orderPrice;
+
         for (OrderMenu orderMenu : orderMenus) {
             orderPrice += orderMenu.getCount() * orderMenu.getOrderPrice();
         }

@@ -7,6 +7,7 @@ import com.eatclipseV2.repository.MenuRepository;
 import com.eatclipseV2.repository.OrderRepository;
 import com.eatclipseV2.repository.ShopRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +22,7 @@ public class OrderService {
     private final MenuRepository menuRepository;
     private final ShopRepository shopRepository;
     private final MemberRepository memberRepository;
-    
+
     public Long makeOrder(Long memberId, Long shopId, Long menuId, int count) {
 
         // 엔티티 조회 : 멤버, 식당, 메뉴
@@ -60,8 +61,17 @@ public class OrderService {
         if (orderStatus.equals("accept")) {
             order.setOrderStatus(OrderStatus.COMPLETE);
             order.getMember().minusCash(totalPrice);
+
+            // 배달 생성
+            Delivery delivery = Delivery.createDelivery(order);
+
         } else {
             order.setOrderStatus(OrderStatus.CANCLE);
         }
+    }
+
+    public List<Order> findAllOrder() {
+
+        return orderRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
     }
 }

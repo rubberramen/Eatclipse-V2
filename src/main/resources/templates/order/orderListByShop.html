@@ -28,6 +28,7 @@
                 <th>주문자</th>
                 <th>주문 상태</th>
                 <th>상세 내역</th>
+                <th>배달 상태</th>
             </tr>
             </thead>
             <tbody>
@@ -41,6 +42,7 @@
                     <a href="#" class="btn btn-light" th:href="@{/order/shop/{orderId} (orderId = ${order.id})}"
                        role="button">⚡</a>
                 </td>
+                <td th:text="${order.delivery.deliveryStatus}"></td>
             </tr>
             </tbody>
         </table>

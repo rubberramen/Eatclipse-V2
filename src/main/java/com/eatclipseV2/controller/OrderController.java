@@ -4,6 +4,7 @@ import com.eatclipseV2.common.MessageDto;
 import com.eatclipseV2.common.StringConst;
 import com.eatclipseV2.entity.*;
 import com.eatclipseV2.entity.enums.OrderStatus;
+import com.eatclipseV2.service.DeliveryService;
 import com.eatclipseV2.service.MenuService;
 import com.eatclipseV2.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -22,6 +24,7 @@ public class OrderController {
 
     private final MenuService menuService;
     private final OrderService orderService;
+    private final DeliveryService deliveryService;
 
     @GetMapping("/{menuId}")
     public String menuDtlByMember(@SessionAttribute(name = StringConst.LOGIN_MEMBER) Member loginMember,
@@ -47,7 +50,7 @@ public class OrderController {
         int totalPrice = order.getTotalPrice();
 
         MessageDto messageDto = new MessageDto("주문이 되었습니다. 식당에서 접수할 예정입니다. (주문 금액 : "
-                + orderPrice + "원, 배달 금액 : 3000원, 총 금액 : " + totalPrice + "원",
+                + orderPrice + "원, 배달 금액 : 3000원, 총 금액 : " + totalPrice + "원)",
                 "/order/member/" + orderId, RequestMethod.GET, null);
 
         return showMessageAndRedirect(messageDto, model);
@@ -68,6 +71,7 @@ public class OrderController {
         model.addAttribute("shop", loginShop);
         List<Order> orders = orderService.orderListByShop(loginShop.getId());
         model.addAttribute("orders", orders);
+
         return "order/orderListByShop";
     }
 

@@ -82,7 +82,6 @@ public class MenuController {
         return showMessageAndRedirect(messageDto, model);
     }
 
-
     @PostMapping("/{menuId}/delete")
     public String delete(@SessionAttribute(name = StringConst.LOGIN_SHOP) Shop loginShop,
                          @PathVariable Long menuId, Model model) {

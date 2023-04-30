@@ -159,7 +159,6 @@ public class MemberController {
         return showMessageAndRedirect(messageDto, model);
     }
 
-
     private String showMessageAndRedirect(final MessageDto messageDto, Model model) {
         model.addAttribute("params", messageDto);
         return "common/messageRedirect";
