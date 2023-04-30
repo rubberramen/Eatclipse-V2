@@ -33,7 +33,7 @@ public class TestDataInit {
         memberRepository.save(new Member("Admin", "admin", "1234", addressAdmin, Role.ADMIN, 10000));
 
         // 한식식당 데이터
-        Address addressKorean = new Address("부산", "한식", "000");
+        Address addressKorean = new Address("부산", "한식로", "123");
         Shop koreanShop = new Shop("한식식당", "1234", addressKorean, Category.KOREAN);
         shopRepository.save(koreanShop);
 
@@ -43,7 +43,7 @@ public class TestDataInit {
         menuRepository.save(new Menu("김치찌개", 8000, "돼지고기 김치찌개", MenuSellStatus.SELL, koreanShop));
 
         // 구이식당 데이터, 중식식당 메뉴 데이터
-        Address addressBBQ = new Address("부산", "구이", "000");
+        Address addressBBQ = new Address("부산", "구이로", "462");
         Shop bbqShop = new Shop("구이식당", "1234", addressBBQ, Category.BBQ);
         shopRepository.save(bbqShop);
         menuRepository.save(new Menu("삼겹살 구이", 10000, "삼겹살", MenuSellStatus.SELL, bbqShop));
@@ -72,9 +72,5 @@ public class TestDataInit {
         // 라이더 데이터
         riderRepository.save(new Rider("라이더1", "rider1", "1234"));
         riderRepository.save(new Rider("라이더2", "rider2", "1234"));
-
-
-
-
     }
 }

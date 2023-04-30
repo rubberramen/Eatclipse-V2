@@ -3,9 +3,9 @@ package com.eatclipseV2.controller;
 import com.eatclipseV2.common.MessageDto;
 import com.eatclipseV2.common.StringConst;
 import com.eatclipseV2.domain.rider.dto.RiderLoginFormDto;
-import com.eatclipseV2.domain.shop.dto.ShopLoginFormDto;
+import com.eatclipseV2.entity.Order;
 import com.eatclipseV2.entity.Rider;
-import com.eatclipseV2.entity.Shop;
+import com.eatclipseV2.service.OrderService;
 import com.eatclipseV2.service.RiderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -23,8 +23,20 @@ import javax.validation.Valid;
 public class RiderController {
 
     private final RiderService riderService;
+    private final OrderService orderService;
 
     @GetMapping("/{orderId}")
+    public String orderDtl(@SessionAttribute(name = StringConst.LOGIN_RIDER) Rider loginRider,
+                           @PathVariable Long orderId, Model model) {
+
+        model.addAttribute("rider", loginRider);
+        Order order = orderService.findOrderByOrderId(orderId);
+        model.addAttribute("order", order);
+
+        return "riders/orderDtlByRider";
+    }
+
+    @GetMapping("/{orderId}/accept")
     public String acceptOrder(@SessionAttribute(name = StringConst.LOGIN_RIDER) Rider loginRider,
                       @PathVariable Long orderId, Model model) {
 
@@ -33,7 +45,22 @@ public class RiderController {
         // 해당 주문 배달 수락
         riderService.acceptDelivery(orderId, loginRider.getId());
 
-        MessageDto messageDto = new MessageDto("해당 배달이 수락되었습니다.",
+        MessageDto messageDto = new MessageDto("해당 배달이 접수되었습니다.",
+                "/", RequestMethod.GET, null);
+
+        return showMessageAndRedirect(messageDto, model);
+    }
+
+    @GetMapping("/{orderId}/complete")
+    public String completeDelivery(@SessionAttribute(name = StringConst.LOGIN_RIDER) Rider loginRider,
+                              @PathVariable Long orderId, Model model) {
+
+        model.addAttribute("rider", loginRider);
+
+        // 주문 배달 완료
+        riderService.completeDelivery(orderId, loginRider.getId());
+
+        MessageDto messageDto = new MessageDto("배달이 완료되었습니다.",
                 "/", RequestMethod.GET, null);
 
         return showMessageAndRedirect(messageDto, model);
@@ -56,7 +83,8 @@ public class RiderController {
             Rider rider = riderService.loginRider(riderLoginFormDto.getNickName(), riderLoginFormDto.getPassword());
             HttpSession session = request.getSession();
             session.setAttribute(StringConst.LOGIN_RIDER, rider);
-            MessageDto messageDto = new MessageDto("로그인이 완료되었습니다", "/", RequestMethod.GET, null);
+            MessageDto messageDto = new MessageDto("로그인이 완료되었습니다",
+                    "/", RequestMethod.GET, null);
             return showMessageAndRedirect(messageDto, model);
         } catch (IllegalStateException e) {
             model.addAttribute("errorMessage", e.getMessage());

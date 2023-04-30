@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template/layouts/layout-shopLogin}">
+
+<title layout:fragment="title">
+    Order
+</title>
+
+<div layout:fragment="content">
+
+    <div class="container">
+        <div>
+            <br>
+            <p th:text="|${rider.nickName}님 환영합니다|"></p>
+        </div>
+
+        <div class="text-center">
+            <h2>주문 상세</h2>
+        </div>
+
+        <form th:action th:object="${order}" method="post">
+            <div>
+                <input type="hidden" id="id" th:field="*{id}" class="form-control" readonly>
+            </div>
+            <div>
+                <label for="shop">출발 식당</label>
+                <input type="text" id="shop"
+                       th:value="${order.shop.name}"
+                       class="form-control" readonly>
+            </div>
+            <div>
+                <label for="departure">출발 주소</label>
+                <input type="text" id="departure"
+                       th:value="|${order.shop.address.city} ${order.shop.address.street} ${order.shop.address.zipcode}|"
+                       class="form-control" readonly>
+            </div>
+            <div>
+                <label for="address">배달 주소</label>
+                <input type="text" id="address"
+                       th:value="|${order.member.address.city} ${order.member.address.street} ${order.member.address.zipcode}|"
+                       class="form-control" readonly>
+            </div>
+
+            <hr class="my-4">
+            <div class="row" th:if="${#strings.equals(order.orderStatus, 'COMPLETE')} and ${#strings.equals(order.delivery.deliveryStatus, 'BEFORE')}">
+                <div class="col">
+                    <button class="w-100 btn btn-primary btn-lg"
+                            th:onclick="|location.href='@{/riders/{orderId}/accept (orderId=${order.id})}'|"
+                            type="button">배달 주문 접수</button>
+                </div>
+            </div>
+
+            <div class="row" th:if="${#strings.equals(order.delivery.deliveryStatus, 'ON_GOING')}">
+                <div class="col">
+                    <button class="w-100 btn btn-primary btn-lg"
+                            th:onclick="|location.href='@{/riders/{orderId}/complete (orderId=${order.id})}'|"
+                            type="button">배달 완료</button>
+                </div>
+            </div>
+
+
+        </form>
+
+    </div> <!-- /container -->
+</div>
+
+</html>

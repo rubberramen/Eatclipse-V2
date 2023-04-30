@@ -28,6 +28,7 @@
                 <th>식당명</th>
                 <th>카테고리</th>
                 <th>주문 상태</th>
+                <th>배달 상태</th>
                 <th>상세 내역</th>
             </tr>
             </thead>
@@ -36,9 +37,17 @@
                 <td th:text="${orderStat.count}"></td>
                 <td><a th:href="@{/}" th:text="${order.shop.name}"></a></td>
                 <td th:text="${order.shop.category}"></td>
+
                 <td class="field-error" th:if="${#strings.equals(order.orderStatus, 'ON_GOING')}" th:text="'접수 중'"></td>
                 <td class="field-error" th:if="${#strings.equals(order.orderStatus, 'CANCLE')}" th:text="'주문 취소'"></td>
                 <td class="field-error" th:if="${#strings.equals(order.orderStatus, 'COMPLETE')}" th:text="'주문 완료'"></td>
+
+                <td class="field-error" th:if="${#strings.equals(order.delivery.deliveryStatus, 'ON_GOING')}" th:text="'배달 중'"></td>
+                <td class="field-error" th:if="${#strings.equals(order.delivery.deliveryStatus, 'BEFORE')}" th:text="'배달 대기'"></td>
+                <td class="field-error" th:if="${#strings.equals(order.delivery.deliveryStatus, 'COMPLETE')}" th:text="'배달 완료'"></td>
+                <td class="field-error" th:if="${#strings.equals(order.delivery.deliveryStatus, 'CANCEL')}" th:text="'배달 취소'"></td>
+
+
                 <td>
                     <a href="#" class="btn btn-light" th:href="@{/order/member/{orderId} (orderId = ${order.id})}"
                        role="button">🍗</a>

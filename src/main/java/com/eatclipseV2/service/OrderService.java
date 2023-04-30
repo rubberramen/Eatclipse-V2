@@ -11,7 +11,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static com.eatclipseV2.entity.enums.DeliveryStatus.CANCEL;
 
 @Service
 @Transactional
@@ -67,11 +70,21 @@ public class OrderService {
 
         } else {
             order.setOrderStatus(OrderStatus.CANCLE);
+            order.getDelivery().setDeliveryStatus(CANCEL);
         }
     }
 
-    public List<Order> findAllOrder() {
+    public List<Order> findAcceptedOrder() {
+        List<Order> allOrder = orderRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
 
-        return orderRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+        List<Order> acceptedOrder = new ArrayList<>();
+
+        for (Order order : allOrder) {
+            if (order.getOrderStatus().equals(OrderStatus.COMPLETE)) {
+                acceptedOrder.add(order);
+            }
+        }
+
+        return acceptedOrder;
     }
 }

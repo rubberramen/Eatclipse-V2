@@ -9,7 +9,7 @@
 
 <div layout:fragment="content">
 
-    <div class="container">
+    <div>
 
         <div>
             <br>
@@ -25,9 +25,10 @@
             <tr>
                 <th>#</th>
                 <th>식당명</th>
+                <th>배달 식당</th>
                 <th>배달 주소</th>
                 <th>배달 상태</th>
-                <th>배달 수락</th>
+                <th>배달 접수/완료</th>
 
             </tr>
             </thead>
@@ -35,9 +36,12 @@
             <tr th:each="order : ${orders}">
                 <td th:text="${orderStat.count}"></td>
                 <td><a th:href="@{/}" th:text="${order.shop.name}"></a></td>
+                <td th:text="|${order.shop.address.city} ${order.shop.address.street} ${order.shop.address.zipcode}|"></td>
                 <td th:text="|${order.member.address.city} ${order.member.address.street} ${order.member.address.zipcode}|"></td>
 
-                <td th:text="${order.delivery.deliveryStatus}"></td>
+                <td style="color:blue" th:if="${#strings.equals(order.delivery.deliveryStatus, 'ON_GOING')}" th:text="'배달 중'"></td>
+                <td class="field-error" th:if="${#strings.equals(order.delivery.deliveryStatus, 'BEFORE')}" th:text="'배달 접수 중'"></td>
+                <td th:if="${#strings.equals(order.delivery.deliveryStatus, 'COMPLETE')}" th:text="'배달 완료'"></td>
                 <td>
                     <a href="#" th:href="@{/riders/{orderId} (orderId=${order.id})}"
                        class="btn btn-light" role="button">🛵</a>

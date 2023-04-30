@@ -38,19 +38,24 @@
                 <input type="number" id="count" th:name="count" th:field="*{count}" class="form-control" readonly>
             </div>
 
-            <div class="field-error">
+            <div>
                 <label for="orderPrice">주문 금액</label>
                 <input type="number" id="orderPrice" th:name="orderPrice" class="form-control" th:value="${orderPrice}" readonly>
             </div>
 
             <div class="field-error">
-                <label for="totalPrice">총 금액(배달료 3000원)</label>
+                <label for="totalPrice">총 금액(배달료 3000원 포함)</label>
                 <input type="number" id="totalPrice" th:name="totalPrice" class="form-control" th:value="${totalPrice}" readonly>
             </div>
 
             <div class="field-error">
                 <label for="status">주문 상태</label>
                 <input type="text" id="status" th:name="status" class="form-control" th:value="${order.orderStatus}" readonly>
+            </div>
+
+            <div class="field-error">
+                <label for="DeliveryStatus">배달 상태</label>
+                <input type="text" id="DeliveryStatus" th:name="DeliveryStatus" class="form-control" th:value="${order.delivery.deliveryStatus}" readonly>
             </div>
 
             <hr class="my-4">

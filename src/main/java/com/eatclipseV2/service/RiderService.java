@@ -37,4 +37,9 @@ public class RiderService {
         order.getDelivery().setDeliveryStatus(DeliveryStatus.ON_GOING);
     }
 
+    public void completeDelivery(Long orderId, Long riderId) {
+        Order order = orderService.findOrderByOrderId(orderId);
+
+        order.getDelivery().setDeliveryStatus(DeliveryStatus.COMPLETE);
+    }
 }

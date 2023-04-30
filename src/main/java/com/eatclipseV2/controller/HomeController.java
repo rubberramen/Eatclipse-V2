@@ -60,7 +60,7 @@ public class HomeController {
             Rider rider = (Rider) session.getAttribute(StringConst.LOGIN_RIDER);
             model.addAttribute("rider", rider);
 
-            List<Order> orders = orderService.findAllOrder();
+            List<Order> orders = orderService.findAcceptedOrder();
             model.addAttribute("orders", orders);
 
             return "main-riderLogin";

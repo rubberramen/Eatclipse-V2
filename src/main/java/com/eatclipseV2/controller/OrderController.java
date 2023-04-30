@@ -3,8 +3,6 @@ package com.eatclipseV2.controller;
 import com.eatclipseV2.common.MessageDto;
 import com.eatclipseV2.common.StringConst;
 import com.eatclipseV2.entity.*;
-import com.eatclipseV2.entity.enums.OrderStatus;
-import com.eatclipseV2.service.DeliveryService;
 import com.eatclipseV2.service.MenuService;
 import com.eatclipseV2.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -24,7 +21,6 @@ public class OrderController {
 
     private final MenuService menuService;
     private final OrderService orderService;
-    private final DeliveryService deliveryService;
 
     @GetMapping("/{menuId}")
     public String menuDtlByMember(@SessionAttribute(name = StringConst.LOGIN_MEMBER) Member loginMember,
@@ -100,19 +96,6 @@ public class OrderController {
         return "redirect:/order/shop/list";
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     @GetMapping("/member/{orderId}")
     public String orderDtlByShop(@SessionAttribute(name = StringConst.LOGIN_MEMBER) Member loginMember,
                                  Model model, @PathVariable Long orderId) {
@@ -131,23 +114,7 @@ public class OrderController {
         OrderMenu orderMenu = order.getOrderMenus().get(0);
         model.addAttribute("orderMenu", orderMenu);
         return "order/orderDtlByMember";
-
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     private String showMessageAndRedirect(final MessageDto messageDto, Model model) {
         model.addAttribute("params", messageDto);
