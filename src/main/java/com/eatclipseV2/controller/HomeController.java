@@ -49,8 +49,9 @@ public class HomeController {
             Shop shop = (Shop) session.getAttribute(StringConst.LOGIN_SHOP);
             model.addAttribute("shop", shop);
 
-            List<Menu> menus = menuService.findMenusByShopId(shop.getId());
-            model.addAttribute("menus", menus);
+            List<Order> orders = orderService.orderListByShop(shop.getId());
+            model.addAttribute("orders", orders);
+
 
             return "main-shopLogin";
         }

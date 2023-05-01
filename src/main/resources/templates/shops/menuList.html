@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template/layouts/layout-shopLogin}">
+
+<title layout:fragment="title">
+    Menu List
+</title>
+
+<div layout:fragment="content">
+
+    <div class="container">
+
+        <div>
+            <br>
+            <p th:text="|${shop.name}님 환영합니다|"></p>
+        </div>
+
+        <div class="text-center">
+            <h2>메뉴</h2>
+        </div>
+        <hr>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>메뉴명</th>
+                <th>가격</th>
+                <th>설명</th>
+                <th>메뉴 수정</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="menu : ${menus}">
+                <td th:text="${menuStat.count}"></td>
+                <td th:text="${menu.name}"></td>
+                <td th:text="${menu.price}"></td>
+                <td th:text="${menu.menuDtl}"></td>
+                <td>
+                    <a href="#" th:href="@{/menus/{id}/edit (id=${menu.id})}"
+                       class="btn btn-outline-dark" role="button">✔️</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</html>

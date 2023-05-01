@@ -29,6 +29,8 @@ public class MenuController {
     public String addMenu(@SessionAttribute(name = StringConst.LOGIN_SHOP) Shop loginShop,
                           @ModelAttribute MenuFormDto menuFormDto, Model model) {
 
+        model.addAttribute("shop", loginShop);
+
         model.addAttribute("sell", "SELL");
         model.addAttribute("sold_out", "SOLD_OUT");
         return "menus/addMenuForm";

@@ -3,7 +3,9 @@ package com.eatclipseV2.controller;
 import com.eatclipseV2.common.MessageDto;
 import com.eatclipseV2.common.StringConst;
 import com.eatclipseV2.domain.shop.dto.ShopLoginFormDto;
+import com.eatclipseV2.entity.Menu;
 import com.eatclipseV2.entity.Shop;
+import com.eatclipseV2.service.MenuService;
 import com.eatclipseV2.service.ShopService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -21,6 +24,18 @@ import javax.validation.Valid;
 public class ShopController {
 
     private final ShopService shopService;
+    private final MenuService menuService;
+
+    @GetMapping("/menus")
+    public String menus(@SessionAttribute(name = StringConst.LOGIN_SHOP) Shop loginShop,
+                        Model model) {
+        model.addAttribute("shop", loginShop);
+
+        List<Menu> menus = menuService.findMenusByShopId(loginShop.getId());
+        model.addAttribute("menus", menus);
+
+        return "shops/menuList";
+    }
 
     @GetMapping("/login")
     public String shopLogin(@ModelAttribute ShopLoginFormDto shopLoginFormDto) {

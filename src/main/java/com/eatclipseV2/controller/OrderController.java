@@ -45,7 +45,7 @@ public class OrderController {
         int orderPrice = order.getOrderPrice();
         int totalPrice = order.getTotalPrice();
 
-        MessageDto messageDto = new MessageDto("주문이 되었습니다. 식당에서 접수할 예정입니다. (주문 금액 : "
+        MessageDto messageDto = new MessageDto("주문이 되었습니다. \n식당에서 접수할 예정입니다.\n(주문 금액 : "
                 + orderPrice + "원, 배달 금액 : 3000원, 총 금액 : " + totalPrice + "원)",
                 "/order/member/" + orderId, RequestMethod.GET, null);
 
@@ -68,7 +68,7 @@ public class OrderController {
         List<Order> orders = orderService.orderListByShop(loginShop.getId());
         model.addAttribute("orders", orders);
 
-        return "order/orderListByShop";
+        return "main-shopLogin";
     }
 
     @GetMapping("/shop/{orderId}")

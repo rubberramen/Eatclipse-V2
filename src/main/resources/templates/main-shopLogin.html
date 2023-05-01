@@ -9,7 +9,7 @@
 
 <div layout:fragment="content">
 
-    <div class="container">
+<!--    <div class="container">-->
 
         <div>
             <br>
@@ -17,33 +17,38 @@
         </div>
 
         <div class="text-center">
-            <h2>메뉴</h2>
+            <br>
+            <h2>주문 목록</h2>
         </div>
         <hr>
         <table class="table table-striped">
             <thead>
             <tr>
                 <th>#</th>
-                <th>메뉴명</th>
-                <th>가격</th>
-                <th>설명</th>
-                <th></th>
+                <th>주문자</th>
+                <th>주문 시간</th>
+                <th>주문 상태</th>
+                <th>상세 내역</th>
+                <th>배달 상태</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="menu : ${menus}">
-                <td th:text="${menuStat.count}"></td>
-                <td th:text="${menu.name}"></td>
-                <td th:text="${menu.price}"></td>
-                <td th:text="${menu.menuDtl}"></td>
+            <tr th:each="order : ${orders}">
+                <td th:text="${orderStat.count}"></td>
+                <td th:text="${order.member.nickName}"></td>
+                <td th:text="${#temporals.format(order.regTime, 'yyyy-MM-dd HH:mm')}"></td>
+                <td class="field-error" th:if="${#strings.equals(order.orderStatus, 'ON_GOING')}" th:text="'접수 중'"></td>
+                <td class="field-error" th:if="${#strings.equals(order.orderStatus, 'CANCLE')}" th:text="'주문 취소'"></td>
+                <td class="field-error" th:if="${#strings.equals(order.orderStatus, 'COMPLETE')}" th:text="'주문 완료'"></td>
                 <td>
-                    <a href="#" th:href="@{/menus/{id}/edit (id=${menu.id})}"
-                       class="btn btn-outline-dark" role="button">수정</a>
+                    <a href="#" class="btn btn-light" th:href="@{/order/shop/{orderId} (orderId = ${order.id})}"
+                       role="button">⚡</a>
                 </td>
+                <td th:text="${order.delivery.deliveryStatus}"></td>
             </tr>
             </tbody>
         </table>
-    </div>
+<!--    </div>-->
 </div>
 
 </html>
