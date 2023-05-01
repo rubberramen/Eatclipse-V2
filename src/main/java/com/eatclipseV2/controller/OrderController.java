@@ -3,6 +3,7 @@ package com.eatclipseV2.controller;
 import com.eatclipseV2.common.MessageDto;
 import com.eatclipseV2.common.StringConst;
 import com.eatclipseV2.entity.*;
+import com.eatclipseV2.exception.NotEnoughCashException;
 import com.eatclipseV2.service.MenuService;
 import com.eatclipseV2.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -42,8 +43,22 @@ public class OrderController {
 
         Long orderId = orderService.makeOrder(loginMember.getId(), shopId, menuId, count);
         Order order = orderService.findOrderByOrderId(orderId);
+
         int orderPrice = order.getOrderPrice();
         int totalPrice = order.getTotalPrice();
+
+        try {
+            order.getMember().minusCash(totalPrice);
+        } catch (NotEnoughCashException e) {
+            int currentCash = order.getMember().getCash();
+            int needCash = totalPrice - currentCash;
+
+            MessageDto messageDto = new MessageDto("캐시가 부족합니다. 충전이 필요합니다.\n(현재 잔액 : "
+                    + currentCash + "원 \n 주문 총금액(배달비 포함) : " + totalPrice + "원 \n 필요 금액 : " + needCash + "원)",
+                    "/members/chargeCash", RequestMethod.GET, null);
+
+            return showMessageAndRedirect(messageDto, model);
+        }
 
         MessageDto messageDto = new MessageDto("주문이 되었습니다. \n식당에서 접수할 예정입니다.\n(주문 금액 : "
                 + orderPrice + "원, 배달 금액 : 3000원, 총 금액 : " + totalPrice + "원)",

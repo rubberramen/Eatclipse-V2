@@ -28,6 +28,9 @@ public class TestDataInit {
         Address addressMember = new Address("부산", "수영로", "389");
         memberRepository.save(new Member("Wang", "rubberramen", "1234", addressMember, Role.USER, 100000));
 
+        Address addressMember2 = new Address("부산", "수영로", "389");
+        memberRepository.save(new Member("tester", "tester", "1234", addressMember, Role.USER, 10000));
+
         // Admin 데이터
         Address addressAdmin = new Address("우주", "은하수", "000");
         memberRepository.save(new Member("Admin", "admin", "1234", addressAdmin, Role.ADMIN, 10000));

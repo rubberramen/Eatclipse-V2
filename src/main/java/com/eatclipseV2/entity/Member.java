@@ -3,6 +3,7 @@ package com.eatclipseV2.entity;
 import com.eatclipseV2.domain.member.dto.MemberEditFormDto;
 import com.eatclipseV2.domain.member.dto.MemberFormDto;
 import com.eatclipseV2.entity.enums.Role;
+import com.eatclipseV2.exception.NotEnoughCashException;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -80,6 +81,14 @@ public class Member extends BaseEntity {
     }
 
     public void minusCash(int amount) {
+
+        int tmpCash = cash - amount;
+
+        if (tmpCash < 0) {
+            throw new NotEnoughCashException("캐시가 부족합니다. (현재 캐시 : " + cash +
+                    ", 주문 총 금액 : " + amount + ")");
+        }
+
         cash -= amount;
     }
 }

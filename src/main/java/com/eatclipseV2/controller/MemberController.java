@@ -106,7 +106,7 @@ public class MemberController {
         if (amount < 10000) {
             model.addAttribute("member", loginMember);
             model.addAttribute("currentCash", loginMember.getCash());
-            model.addAttribute("error", "10,000원 이상 충전해 주세요");
+            model.addAttribute("error", "10,000원 이상부터 충전 가능합니다.");
             return "members/chargeCashForm";
         }
 
