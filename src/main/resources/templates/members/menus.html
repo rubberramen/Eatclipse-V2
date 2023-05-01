@@ -39,8 +39,11 @@
                 <td th:text="${menu.menuDtl}"></td>
                 <td th:text="${menu.menuSellStatus}"></td>
 
-                <td>
+                <td th:if="${#strings.equals(menu.menuSellStatus, 'SELL')}">
                     <a href="#" th:href="@{/order/{menuId} (menuId = ${menu.id})}" class="btn btn-light" role="button">🍕</a>
+                </td>
+                <td th:unless="${#strings.equals(menu.menuSellStatus, 'SELL')}">
+                    <a href="#" class="btn btn-light" role="button">❌</a>
                 </td>
             </tr>
             </tbody>

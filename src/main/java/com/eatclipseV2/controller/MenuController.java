@@ -40,6 +40,9 @@ public class MenuController {
     public String addMenu(@SessionAttribute(name = StringConst.LOGIN_SHOP) Shop loginShop,
                           @Valid MenuFormDto menuFormDto, BindingResult bindingResult,
                           Model model) {
+
+        model.addAttribute("shop", loginShop);
+
         if (bindingResult.hasErrors()) {
             model.addAttribute("sell", "SELL");
             model.addAttribute("sold_out", "SOLD_OUT");
@@ -49,7 +52,7 @@ public class MenuController {
         menuService.addMenu(menuFormDto, loginShop.getId());
 
         MessageDto messageDto = new MessageDto("메뉴 등록이 완료되었습니다.",
-                "/", RequestMethod.GET, null);
+                "/shops/menus", RequestMethod.GET, null);
         return showMessageAndRedirect(messageDto, model);
     }
 

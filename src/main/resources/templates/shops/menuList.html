@@ -27,6 +27,7 @@
                 <th>메뉴명</th>
                 <th>가격</th>
                 <th>설명</th>
+                <th>메뉴 상태</th>
                 <th>메뉴 수정</th>
             </tr>
             </thead>
@@ -36,6 +37,7 @@
                 <td th:text="${menu.name}"></td>
                 <td th:text="${menu.price}"></td>
                 <td th:text="${menu.menuDtl}"></td>
+                <td th:text="${menu.menuSellStatus}"></td>
                 <td>
                     <a href="#" th:href="@{/menus/{id}/edit (id=${menu.id})}"
                        class="btn btn-outline-dark" role="button">✔️</a>
