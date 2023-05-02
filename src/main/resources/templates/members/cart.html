@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template/layouts/layout-memberLogin}">
+
+<title layout:fragment="title">
+    Cart
+</title>
+
+<div layout:fragment="content">
+
+    <div class="container">
+
+        <div>
+            <br>
+            <p th:text="|${member.nickName}님 환영합니다!|"></p>
+        </div>
+
+        <div class="text-center">
+            <h2>장바구니</h2>
+        </div>
+
+        <div>
+            <br>
+            <h4 th:text="${cart.shop.name}"></h4>
+        </div>
+        <hr>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>메뉴명</th>
+                <th>가격</th>
+                <th>수량</th>
+                <th>금액</th>
+                <th>취소</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="cartMenu : ${cart.cartMenus}">
+                <td th:text="${cartMenuStat.count}"></td>
+                <td><a th:href="@{/}" th:text="${cartMenu.menu.name}"></a></td>
+                <td th:text="${cartMenu.menu.price}"></td>
+                <td th:text="${cartMenu.count}"></td>
+                <td th:text="${cartMenu.amount}">금액</td>
+                <td>
+                    <a href="#"
+                       th:menuId="${cartMenu.menu.id}"
+                       th:onclick="deleteCartMenu(this.getAttribute('menuId'))"
+                       class="btn btn-light" role="button">❌</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <hr>
+
+        <div class="row">
+            <div class="col">
+                <h4 th:text="|총 금액 : ${totalAmount}원|"></h4>
+                <button class="w-40 btn btn-success btn-lg"
+                        th:onclick="order()"
+                        type="button">주문</button>
+            </div>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+
+        function deleteCartMenu(param){
+
+            let f = document.createElement('form');
+            f.setAttribute('method', 'post');
+
+            const url = '/cart/delete';
+
+            var paramData = {
+                menuId : param
+            };
+
+            for (var key in paramData) {
+                var hiddenField = document.createElement('input');
+                hiddenField.setAttribute('type', 'hidden');
+                hiddenField.setAttribute('name', key);
+                hiddenField.setAttribute('value', paramData[key]);
+                f.appendChild(hiddenField);
+            }
+
+            f.setAttribute('action', url);
+            document.body.appendChild(f);
+            f.submit();
+
+        }
+        /*]]>*/
+    </script>
+</div>
+
+</html>

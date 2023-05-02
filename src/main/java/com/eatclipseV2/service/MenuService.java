@@ -59,4 +59,7 @@ public class MenuService {
         menuRepository.deleteById(menuId);
     }
 
+    public Menu findMenuById(Long menuId) {
+        return menuRepository.findById(menuId).get();
+    }
 }

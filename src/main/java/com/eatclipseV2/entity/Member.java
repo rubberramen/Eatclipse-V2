@@ -41,8 +41,11 @@ public class Member extends BaseEntity {
 //    @OneToMany
 //    private List<Order> orders;
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders = new ArrayList<>();
+
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Cart cart;
 
     public static Member createMember(MemberFormDto memberFormDto) {
 
