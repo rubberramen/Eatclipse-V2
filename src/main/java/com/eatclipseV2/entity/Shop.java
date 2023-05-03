@@ -34,7 +34,7 @@ public class Shop extends BaseEntity {
     @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders = new ArrayList<>();
 
-    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, orphanRemoval = true )
+    @OneToMany(mappedBy = "shop")  // cascade = CascadeType.ALL, orphanRemoval = true
     private List<Cart> carts = new ArrayList<>();
 
     public Shop() {

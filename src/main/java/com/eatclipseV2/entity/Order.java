@@ -61,7 +61,7 @@ public class Order extends BaseEntity {
     }
 
     // TODO: 2023-04-29 029 카트 기능 추가시 로직 수정 예정
-    public static Order createOrder(Member member, Shop shop, OrderMenu... orderMenus) {
+    public static Order createOrder(Member member, Shop shop, List<OrderMenu> orderMenus) {
         Order order = new Order();
         order.setMember(member);
         order.setShop(shop);

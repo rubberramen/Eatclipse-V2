@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -60,6 +61,18 @@ public class CartService {
                 cart.getCartMenus().remove(i);
             }
         }
+    }
+
+    public void deleteCartMenus(Long memberId) {
+
+        Cart cart = cartRepository.findByMemberId(memberId);
+        List<CartMenu> cartMenus = cart.getCartMenus();
+
+        for (CartMenu cartMenu : cartMenus) {
+            cartMenuRepository.deleteById(cartMenu.getId());
+        }
+
+        cart.setCartMenus(new ArrayList<>());
     }
 
     public void deleteCart(Cart cart) {

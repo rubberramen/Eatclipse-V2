@@ -35,9 +35,35 @@ public class OrderService {
 
         // 주문 메뉴 생성
         OrderMenu orderMenu = OrderMenu.createOrderMenu(menu, count);
+        List<OrderMenu> orderMenus = new ArrayList<>();
+        orderMenus.add(orderMenu);
 
         // 주문 생성
-        Order order = Order.createOrder(member, shop, orderMenu);
+        Order order = Order.createOrder(member, shop, orderMenus);
+
+        // 주문 저장
+        orderRepository.save(order);
+
+        return order.getId();
+    }
+
+    public Long makeOrder(Long memberId, Cart cart) {
+
+        // 엔티티 조회
+        Member member = memberRepository.findById(memberId).get();
+        Shop shop = shopRepository.findById(cart.getShop().getId()).get();
+        List<CartMenu> cartMenus = cart.getCartMenus();
+        List<OrderMenu> orderMenus = new ArrayList<>();
+
+        for (CartMenu cartMenu : cartMenus) {
+            Menu menu = cartMenu.getMenu();
+            int count = cartMenu.getCount();
+            OrderMenu orderMenu = OrderMenu.createOrderMenu(menu, count);
+            orderMenus.add(orderMenu);
+        }
+
+        // 주문 생성
+        Order order = Order.createOrder(member, shop, orderMenus);
 
         // 주문 저장
         orderRepository.save(order);

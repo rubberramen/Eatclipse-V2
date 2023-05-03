@@ -42,7 +42,7 @@ public class CartController {
 
         Long shopId = cart.getShop().getId();
         MessageDto messageDto = new MessageDto("장바구니에 담겼습니다",
-                "/menus/shop/" + shopId, RequestMethod.GET, null);   // TODO: 2023-05-02 002 카트가 아니라 메뉴로 가야함
+                "/menus/shop/" + shopId, RequestMethod.GET, null);
 
         return showMessageAndRedirect(messageDto, model);
     }

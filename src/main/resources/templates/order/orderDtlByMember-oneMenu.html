@@ -19,35 +19,24 @@
             <h2>주문 상세</h2>
         </div>
 
-        <hr>
-
-        <div>
-            <h4 th:text="${order.shop.name}">식당 이름</h4>
-        </div>
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>#</th>
-                <th>메뉴명</th>
-                <th>가격</th>
-                <th>수량</th>
-                <th>금액</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="orderMenu : ${order.orderMenus}">
-                <td th:text="${orderMenuStat.count}"></td>
-                <td><a th:href="@{/}" th:text="${orderMenu.menu.name}"></a></td>
-                <td th:text="${orderMenu.menu.price}"></td>
-                <td th:text="${orderMenu.count}"></td>
-                <td>금액</td>
-            </tr>
-            </tbody>
-        </table>
-
-        <hr>
-
         <form th:action th:object="${orderMenu}" method="post">
+            <div>
+                <input type="hidden" id="id" th:field="*{id}" class="form-control" readonly>
+            </div>
+            <div>
+                <label for="name">메뉴명</label>
+                <input type="text" id="name" th:field="*{menu.name}" class="form-control" readonly>
+            </div>
+
+            <div>
+                <label for="price">가격</label>
+                <input type="number" id="price" th:field="*{orderPrice}" class="form-control" readonly>
+            </div>
+
+            <div>
+                <label for="count">메뉴 수량</label>
+                <input type="number" id="count" th:name="count" th:field="*{count}" class="form-control" readonly>
+            </div>
 
             <div>
                 <label for="orderPrice">주문 금액</label>

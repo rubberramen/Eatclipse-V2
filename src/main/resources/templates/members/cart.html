@@ -92,6 +92,19 @@
             f.submit();
 
         }
+
+        function order(){
+
+            let f = document.createElement('form');
+            f.setAttribute('method', 'post');
+
+            const url = '/order/cart';
+
+            f.setAttribute('action', url);
+            document.body.appendChild(f);
+            f.submit();
+
+        }
         /*]]>*/
     </script>
 </div>
