@@ -4,10 +4,7 @@ import com.eatclipseV2.entity.*;
 import com.eatclipseV2.entity.enums.Category;
 import com.eatclipseV2.entity.enums.MenuSellStatus;
 import com.eatclipseV2.entity.enums.Role;
-import com.eatclipseV2.repository.MemberRepository;
-import com.eatclipseV2.repository.MenuRepository;
-import com.eatclipseV2.repository.RiderRepository;
-import com.eatclipseV2.repository.ShopRepository;
+import com.eatclipseV2.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -21,15 +18,18 @@ public class TestDataInit {
     private final ShopRepository shopRepository;
     private final MenuRepository menuRepository;
     private final RiderRepository riderRepository;
+    private final ReviewRepository reviewRepository;
 
     @PostConstruct
     public void init() {
         // 고객 데이터
         Address addressMember = new Address("부산", "수영로", "389");
-        memberRepository.save(new Member("Wang", "rubberramen", "1234", addressMember, Role.USER, 100000));
+        Member member1 = new Member("Wang", "rubberramen", "1234", addressMember, Role.USER, 100000);
+        memberRepository.save(member1);
 
-        Address addressMember2 = new Address("부산", "수영로", "389");
-        memberRepository.save(new Member("tester", "tester", "1234", addressMember, Role.USER, 10000));
+        Address addressMember2 = new Address("부산", "절영로", "389");
+        Member member2 = new Member("tester", "tester", "1234", addressMember, Role.USER, 10000);
+        memberRepository.save(member2);
 
         // Admin 데이터
         Address addressAdmin = new Address("우주", "은하수", "000");
@@ -75,5 +75,12 @@ public class TestDataInit {
         // 라이더 데이터
         riderRepository.save(new Rider("라이더1", "rider1", "1234"));
         riderRepository.save(new Rider("라이더2", "rider2", "1234"));
+
+        // 리뷰 데이터
+        Review review1 = new Review("한식식당 맛나요", "정말 맛나요", 0, 0, member1, koreanShop);
+        reviewRepository.save(review1);
+
+        Review review2 = new Review("구이식당 맛나요", "정말 맛나요", 0, 0, member2, bbqShop);
+        reviewRepository.save(review2);
     }
 }
