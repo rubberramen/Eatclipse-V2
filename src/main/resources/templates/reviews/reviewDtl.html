@@ -43,7 +43,7 @@
                 <th scope="row">등록일</th>
                 <td th:text="${#temporals.format( review.regTime, 'yyyy-MM-dd HH:mm' )}"></td>
                 <th scope="row">조회</th>
-                <td colspan="3" th:text="${review.viewCnt + 1}"></td>
+                <td colspan="3" th:text="${review.viewCnt}"></td>
             </tr>
             <tr height="200">
                 <th scope="row">내용</th>

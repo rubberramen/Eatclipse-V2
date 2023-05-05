@@ -27,7 +27,10 @@ public class ReviewService {
     }
 
     public Review findReview(Long reviewId) {
-        return reviewRepository.findById(reviewId).get();
+        Review review = reviewRepository.findById(reviewId).get();
+        int viewCnt = review.getViewCnt();
+        review.setViewCnt(++viewCnt);
+        return review;
     }
 
     public Review saveReview(ReviewFormDto reviewFormDto, Long memberId, Long shopId) {
