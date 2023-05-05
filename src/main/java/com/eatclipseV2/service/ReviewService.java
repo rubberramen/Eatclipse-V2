@@ -33,9 +33,9 @@ public class ReviewService {
     public Review saveReview(ReviewFormDto reviewFormDto, Long memberId, Long shopId) {
         Member member = memberRepository.findById(memberId).get();
         Shop shop = shopRepository.findById(shopId).get();
-        // TODO: 2023-05-05 005 model mapper로 Refactoring
-        Review review = new Review(reviewFormDto.getTitle(), reviewFormDto.getContent(),
-                0, 0, member, shop);
+
+        Review review = reviewFormDto.createReview();
+
         reviewRepository.save(review);
         return review;
     }
