@@ -82,5 +82,11 @@ public class TestDataInit {
 
         Review review2 = new Review("구이식당 맛나요", "정말 맛나요", 0, 0, member2, bbqShop);
         reviewRepository.save(review2);
+
+        Review review3 = new Review("한식식당 별로예요", "별로예요ㅜㅠ", 0, 0, member2, koreanShop);
+        reviewRepository.save(review3);
+
+        Review review4 = new Review("구이식당 별로예요", "별로예요ㅜㅠ", 0, 0, member2, bbqShop);
+        reviewRepository.save(review4);
     }
 }

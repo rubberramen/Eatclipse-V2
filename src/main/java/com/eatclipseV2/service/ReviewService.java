@@ -23,7 +23,12 @@ public class ReviewService {
     private final ShopRepository shopRepository;
 
     public List<Review> findAllReviews() {
-        return reviewRepository.findAll();
+        return reviewRepository.findAllOrder();
+    }
+
+    public List<Review> findReviewsByShop(Long shopId) {
+        List<Review> reviewByShop = reviewRepository.findByShopIdOrder(shopId);
+        return reviewByShop;
     }
 
     public Review findReview(Long reviewId) {

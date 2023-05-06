@@ -27,7 +27,7 @@
                 <col style="width:auto;"/>
                 <col style="width:15%;"/>
                 <col style="width:15%;"/>
-                <col style="width:15%;"/>
+                <col style="width:20%;"/>
                 <col style="width:70px;"/>
             </colgroup>
             <thead>
@@ -47,7 +47,7 @@
                 <td><a th:href="@{/reviews/member/{reviewId} (reviewId=${review.id})}" th:text="${review.title}"></a></td>
                 <td th:text="${review.member.nickName}"></td>
                 <td th:text="${review.shop.name}"></td>
-                <td th:text="${#temporals.format(review.regTime, 'yyyy-MM-dd')}"></td>
+                <td th:text="${#temporals.format(review.regTime, 'yy-MM-dd HH:mm')}"></td>
                 <td th:text="${review.viewCnt}"></td>
             </tr>
             </tbody>

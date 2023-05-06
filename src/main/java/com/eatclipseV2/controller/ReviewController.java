@@ -25,7 +25,7 @@ public class ReviewController {
     private final ReviewService reviewService;
     private final ShopService shopService;
 
-    @GetMapping
+    @GetMapping("/member")
     public String reviews(@SessionAttribute(name = StringConst.LOGIN_MEMBER) Member loginMember,
                           Model model) {
 
@@ -33,11 +33,22 @@ public class ReviewController {
         List<Review> allReviews = reviewService.findAllReviews();
         model.addAttribute("reviews", allReviews);
 
-        return "reviews/reviewList";
+        return "reviews/reviewListByMember";
+    }
+
+    @GetMapping("/shop")
+    public String reviews(@SessionAttribute(name = StringConst.LOGIN_SHOP) Shop loginShop,
+                          Model model) {
+
+        model.addAttribute("shop", loginShop);
+        List<Review> reviews = reviewService.findReviewsByShop(loginShop.getId());
+        model.addAttribute("reviews", reviews);
+
+        return "reviews/reviewListByShop";
     }
 
     @GetMapping("/member/{reviewId}")
-    public String reviewDtl(@SessionAttribute(name = StringConst.LOGIN_MEMBER) Member loginMember,
+    public String reviewDtlByMember(@SessionAttribute(name = StringConst.LOGIN_MEMBER) Member loginMember,
                             @PathVariable Long reviewId,
                             Model model) {
 
@@ -45,7 +56,19 @@ public class ReviewController {
         Review review = reviewService.findReview(reviewId);
         model.addAttribute("review", review);
 
-        return "reviews/reviewDtl";
+        return "reviews/reviewDtlByMember";
+    }
+
+    @GetMapping("/shop/{reviewId}")
+    public String reviewDtlByShop(@SessionAttribute(name = StringConst.LOGIN_SHOP) Shop loginShop,
+                            @PathVariable Long reviewId,
+                            Model model) {
+
+        model.addAttribute("shop", loginShop);
+        Review review = reviewService.findReview(reviewId);
+        model.addAttribute("review", review);
+
+        return "reviews/reviewDtlByShop";
     }
 
     @GetMapping("/new")

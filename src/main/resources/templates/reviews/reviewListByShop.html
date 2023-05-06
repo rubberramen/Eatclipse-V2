@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template/layouts/layout-shopLogin}">
+
+<title layout:fragment="title">
+    Review
+</title>
+
+<div layout:fragment="content">
+
+        <div>
+            <br>
+            <p th:text="|${shop.name}님 환영합니다!|"></p>
+        </div>
+
+        <div class="text-center">
+            <h2>리뷰</h2>
+        </div>
+        <hr>
+        <table class="table table-striped">
+            <colgroup>
+                <col style="width:70px;"/>
+                <col style="width:auto;"/>
+                <col style="width:15%;"/>
+                <col style="width:15%;"/>
+                <col style="width:20%;"/>
+                <col style="width:70px;"/>
+            </colgroup>
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>식당</th>
+                <th>등록일</th>
+                <th>조회</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="review : ${reviews}">
+                <td th:text="${reviewStat.count}"></td>
+                <td><a th:href="@{/reviews/shop/{reviewId} (reviewId=${review.id})}" th:text="${review.title}"></a></td>
+                <td th:text="${review.member.nickName}"></td>
+                <td th:text="${review.shop.name}"></td>
+                <td th:text="${#temporals.format(review.regTime, 'yy-MM-dd HH:mm')}"></td>
+                <td th:text="${review.viewCnt}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</html>

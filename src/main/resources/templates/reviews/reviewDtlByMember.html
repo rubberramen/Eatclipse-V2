@@ -13,7 +13,8 @@
 
         <div>
             <br>
-            <p th:text="|${member.nickName}님 환영합니다!|"></p>
+            <p th:if="${member}" th:text="|${member.nickName}님 환영합니다!|"></p>
+            <p th:if="${shop}" th:text="|${member.nickName}님 환영합니다!|"></p>
         </div>
 
         <div class="text-center">
@@ -60,7 +61,7 @@
             <button th:if="${loginMember}" type="button" class="btn btn-info" th:onclick="deletePost();">
                 삭제
             </button>
-            <button type="button" class="btn btn-info" th:onclick="|location.href='@{/reviews}'|">
+            <button type="button" class="btn btn-info" th:onclick="|location.href='@{/reviews/member}'|">
                 목록
             </button>
         </div>

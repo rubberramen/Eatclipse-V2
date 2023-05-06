@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{template/layouts/layout-shopLogin}">
+
+<title layout:fragment="title">
+    Review
+</title>
+
+<div layout:fragment="content">
+
+    <div class="container">
+
+        <div>
+            <br>
+            <p th:if="${shop}" th:text="|${shop.name}님 환영합니다!|"></p>
+        </div>
+
+        <div class="text-center">
+            <h2>리뷰</h2>
+        </div>
+        <hr>
+        <table class="table table-striped table-bordered" border="1" cellpadding="100">
+            <colgroup>
+                <col style="width:10%;"/>
+                <col style="width:23%;"/>
+                <col style="width:10%;"/>
+                <col style="width:23%;"/>
+            </colgroup>
+            <tbody>
+            <tr>
+                <th scope="row">제목</th>
+                <td colspan="3" th:text="${review.title}"></td>
+
+            </tr>
+            <tr>
+                <th scope="row">식당</th>
+                <td th:text="${review.shop.name}"></td>
+                <th scope="row">작성자</th>
+                <td colspan="3" th:text="${review.member.nickName}"></td>
+            </tr>
+            <tr>
+                <th scope="row">등록일</th>
+                <td th:text="${#temporals.format( review.regTime, 'yyyy-MM-dd HH:mm' )}"></td>
+                <th scope="row">조회</th>
+                <td colspan="3" th:text="${review.viewCnt}"></td>
+            </tr>
+            <tr height="200">
+                <th scope="row">내용</th>
+                <td colspan="3" th:text="${review.content}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div>
+            <button th:if="${loginMember}" type="button" class="btn btn-info"
+                    th:onclick="|location.href='@{/review/new( boardId=${post.boardId} )}'|">
+                수정
+            </button>
+            <button th:if="${loginMember}" type="button" class="btn btn-info" th:onclick="deletePost();">
+                삭제
+            </button>
+            <button type="button" class="btn btn-info" th:onclick="|location.href='@{/reviews/shop}'|">
+                목록
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+</html>
