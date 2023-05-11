@@ -87,7 +87,7 @@ public class MenuController {
         return showMessageAndRedirect(messageDto, model);
     }
 
-    @PostMapping("/{menuId}/delete")
+    @PostMapping("/{menuId}/delete")  // TODO: 2023-05-11 011 Post 말고 delete 활용해보자, alert 기능도 추가 
     public String delete(@SessionAttribute(name = StringConst.LOGIN_SHOP) Shop loginShop,
                          @PathVariable Long menuId, Model model) {
         menuService.deleteMenu(menuId);

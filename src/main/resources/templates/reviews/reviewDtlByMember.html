@@ -14,7 +14,7 @@
         <div>
             <br>
             <p th:if="${member}" th:text="|${member.nickName}님 환영합니다!|"></p>
-            <p th:if="${shop}" th:text="|${member.nickName}님 환영합니다!|"></p>
+<!--            <p th:if="${shop}" th:text="|${member.nickName}님 환영합니다!|"></p>-->
         </div>
 
         <div class="text-center">
@@ -54,11 +54,14 @@
         </table>
 
         <div>
-            <button th:if="${loginMember}" type="button" class="btn btn-info"
-                    th:onclick="|location.href='@{/review/new( boardId=${post.boardId} )}'|">
-                수정
-            </button>
-            <button th:if="${loginMember}" type="button" class="btn btn-info" th:onclick="deletePost();">
+<!--            <button th:if="${member.id == review.member.id}" type="button" class="btn btn-info"-->
+<!--                    th:onclick="|location.href='@{/review/new( boardId=${post.boardId} )}'|">-->
+<!--                수정-->
+<!--            </button>-->
+<!--            <button th:if="${loginMember}" type="button" class="btn btn-info" th:onclick="deletePost();">-->
+<!--                삭제-->
+<!--            </button>-->
+            <button th:if="${member.id == review.member.id}" type="button" class="btn btn-info" th:onclick="deletePost();">
                 삭제
             </button>
             <button type="button" class="btn btn-info" th:onclick="|location.href='@{/reviews/member}'|">
@@ -67,6 +70,32 @@
         </div>
 
     </div>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+
+        function deletePost(){
+
+            const reviewId = [[ ${review.id} ]];
+            const reviewTitle = [[ ${review.title} ]];
+            console.log(reviewId);
+
+            if ( !confirm('<' + reviewTitle + '> 게시글을 삭제할까요?') ) {
+                    return false;
+                }
+
+            let f = document.createElement('form');
+            f.setAttribute('method', 'post');
+
+            const url = '/reviews/member/' + reviewId +'/delete';
+
+            f.setAttribute('action', url);
+            document.body.appendChild(f);
+            f.submit();
+
+        }
+        /*]]>*/
+    </script>
 
 </div>
 

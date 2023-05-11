@@ -22,6 +22,7 @@ public class ReviewService {
     private final MemberRepository memberRepository;
     private final ShopRepository shopRepository;
 
+    // TODO: 2023-05-11 011 findAll이 delete_yn이 0인 것만 표시해야 겠네 
     public List<Review> findAllReviews() {
         return reviewRepository.findAllOrder();
     }
@@ -46,5 +47,9 @@ public class ReviewService {
 
         reviewRepository.save(review);
         return review;
+    }
+
+    public void deleteReview(Long reviewId) {  // TODO: 2023-05-11 011 삭제가 아니라 delete_yn 변경으로
+        reviewRepository.deleteById(reviewId);
     }
 }

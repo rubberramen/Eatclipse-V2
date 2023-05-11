@@ -59,6 +59,20 @@ public class ReviewController {
         return "reviews/reviewDtlByMember";
     }
 
+    @PostMapping("/member/{reviewId}/delete")
+    public String reviewDelete(@SessionAttribute(name = StringConst.LOGIN_MEMBER) Member loginMember,
+                               @PathVariable Long reviewId,
+                               Model model) {
+
+        model.addAttribute("member", loginMember);
+
+        reviewService.deleteReview(reviewId);
+
+        MessageDto messageDto = new MessageDto("리뷰가 삭제되었습니다",
+                "/reviews/member", RequestMethod.GET, null);
+        return showMessageAndRedirect(messageDto, model);
+    }
+
     @GetMapping("/shop/{reviewId}")
     public String reviewDtlByShop(@SessionAttribute(name = StringConst.LOGIN_SHOP) Shop loginShop,
                             @PathVariable Long reviewId,
@@ -71,16 +85,15 @@ public class ReviewController {
         return "reviews/reviewDtlByShop";
     }
 
-    @GetMapping("/new")
+    @GetMapping("/new")  // TODO: 2023-05-11 011 update Review 로직 추가 예정 
     public String writeReview(@SessionAttribute(name = StringConst.LOGIN_MEMBER) Member loginMember,
                               @ModelAttribute ReviewFormDto reviewFormDto, Model model) {
         
         model.addAttribute("member", loginMember);
-
         List<Shop> allShop = shopService.findAllShop();
         model.addAttribute("allShop", allShop);
 
-        return "reviews/reviewWriteForm";  // TODO: 2023-05-04 004 작성 중
+        return "reviews/reviewWriteForm";
     }
 
     @PostMapping("/new")
