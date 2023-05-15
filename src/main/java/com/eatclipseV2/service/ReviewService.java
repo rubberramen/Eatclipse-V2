@@ -52,4 +52,14 @@ public class ReviewService {
     public void deleteReview(Long reviewId) {  // TODO: 2023-05-11 011 삭제가 아니라 delete_yn 변경으로
         reviewRepository.deleteById(reviewId);
     }
+
+    public Review findReviewById(long reviewId) {
+        return reviewRepository.findById(reviewId).get();
+    }
+
+    public void update(ReviewFormDto reviewFormDto) {
+        Review review = reviewRepository.findById(reviewFormDto.getId()).get();
+        review.setTitle(reviewFormDto.getTitle());
+        review.setContent(reviewFormDto.getContent());
+    }
 }

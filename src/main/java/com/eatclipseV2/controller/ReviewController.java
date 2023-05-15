@@ -85,10 +85,10 @@ public class ReviewController {
         return "reviews/reviewDtlByShop";
     }
 
-    @GetMapping("/new")  // TODO: 2023-05-11 011 update Review 로직 추가 예정 
+    @GetMapping("/new")  // TODO: 2023-05-11 011 update Review 로직 추가 예정
     public String writeReview(@SessionAttribute(name = StringConst.LOGIN_MEMBER) Member loginMember,
                               @ModelAttribute ReviewFormDto reviewFormDto, Model model) {
-        
+
         model.addAttribute("member", loginMember);
         List<Shop> allShop = shopService.findAllShop();
         model.addAttribute("allShop", allShop);
@@ -111,10 +111,44 @@ public class ReviewController {
         Shop shop = shopService.findShop(reviewFormDto.getShopId());
         Review review = reviewService.saveReview(reviewFormDto, loginMember.getId(), shop.getId());
 
-
         MessageDto messageDto = new MessageDto("리뷰가 작성되었습니다",
                 "/reviews/member/" + review.getId(), RequestMethod.GET, null);
         return showMessageAndRedirect(messageDto, model);
+    }
+
+    @GetMapping("/update")
+    public String updateReview(@SessionAttribute(name = StringConst.LOGIN_MEMBER) Member loginMember,
+                               Model model,  // @ModelAttribute ReviewFormDto reviewFormDto,
+                               @RequestParam(required = false) Long reviewId) {
+
+        model.addAttribute("member", loginMember);
+
+        Review review = reviewService.findReviewById(reviewId);
+        Shop shop = review.getShop();
+        ReviewFormDto reviewFormDto = ReviewFormDto.of(review);
+        model.addAttribute("reviewFormDto", reviewFormDto);
+        model.addAttribute("shop", shop);
+        return "reviews/reviewUpdateForm";
+    }
+
+    @PostMapping("/update")
+    public String updateReview(@SessionAttribute(name = StringConst.LOGIN_MEMBER) Member loginMember,
+                               @Valid ReviewFormDto reviewFormDto, BindingResult bindingResult,
+                               Model model) {
+
+        model.addAttribute("member", loginMember);
+
+        if (bindingResult.hasErrors()) {
+            List<Shop> allShop = shopService.findAllShop();
+            model.addAttribute("allShop", allShop);
+            return "reviews/reviewUpdateForm";
+        }
+
+        reviewService.update(reviewFormDto);
+
+        MessageDto message = new MessageDto("리뷰가 수정되었습니다.",
+                "/reviews/member/"+reviewFormDto.getId(), RequestMethod.GET, null);
+        return showMessageAndRedirect(message, model);
     }
 
     private String showMessageAndRedirect(final MessageDto messageDto, Model model) {

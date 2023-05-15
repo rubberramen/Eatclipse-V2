@@ -14,7 +14,6 @@
         <div>
             <br>
             <p th:if="${member}" th:text="|${member.nickName}님 환영합니다!|"></p>
-<!--            <p th:if="${shop}" th:text="|${member.nickName}님 환영합니다!|"></p>-->
         </div>
 
         <div class="text-center">
@@ -54,13 +53,10 @@
         </table>
 
         <div>
-<!--            <button th:if="${member.id == review.member.id}" type="button" class="btn btn-info"-->
-<!--                    th:onclick="|location.href='@{/review/new( boardId=${post.boardId} )}'|">-->
-<!--                수정-->
-<!--            </button>-->
-<!--            <button th:if="${loginMember}" type="button" class="btn btn-info" th:onclick="deletePost();">-->
-<!--                삭제-->
-<!--            </button>-->
+            <button th:if="${member.id == review.member.id}" type="button" class="btn btn-info"
+                    th:onclick="|location.href='@{/reviews/update( reviewId=${review.id} )}'|">
+                수정
+            </button>
             <button th:if="${member.id == review.member.id}" type="button" class="btn btn-info" th:onclick="deletePost();">
                 삭제
             </button>

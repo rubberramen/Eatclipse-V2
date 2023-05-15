@@ -30,6 +30,10 @@ public class ReviewFormDto {
 
     // TODO: 2023-05-05 005 리뷰 수정시 of 메서드 만들기
 
+    public static ReviewFormDto of(Review review) {
+        return modelMapper.map(review, ReviewFormDto.class);
+    }
+
     public Review createReview() {
         return modelMapper.map(this, Review.class);
     }

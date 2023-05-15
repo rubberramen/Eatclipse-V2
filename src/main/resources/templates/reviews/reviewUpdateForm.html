@@ -17,13 +17,12 @@
         </div>
 
         <div class="text-center">
-            <h2>리뷰 쓰기</h2>
+            <h2>리뷰 수정</h2>
         </div>
         <hr>
         <form th:object="${reviewFormDto}" action="" method="post" autocomplete="off">
             <!--/* 게시글 수정인 경우, 서버로 전달할 게시글 번호 (PK) */-->
-            <input type="hidden" id="reviewId" name="reviewId" th:if="${reviewFormDto != null}"
-                   th:value="${reviewFormDto.id}"/>
+            <input type="hidden" id="reviewId" name="reviewId" th:field="*{id}"/>
             <input type="hidden" id="memberId" name="memberId" th:value="${member.id}"/>
 
             <table class="table table-striped table-bordered">
@@ -47,19 +46,14 @@
                                th:value="${member.nickName}"
                                maxlength="10" placeholder="닉네임을 입력해 주세요." readonly/></td>
                 </tr>
-
-                <tr th:if="${#strings.isEmpty(shop)}">
+                <tr th:unless="${#strings.isEmpty(shop)}">
                     <th><label th:for="shopId">식당</label> <span class="es"></span></th>
                     <td colspan="3">
-                        <select class="form-control optionRed" id="shopId" name="shopId">
-                            <option style="color:#A744DE" value="">식당🍽️선택</option>
-                            <option th:each="shop : ${allShop}" th:value="${shop?.id}"
-                                    th:utext="${shop?.name}">식당
-                            </option>
-                        </select>
+                        <input class="form-control" type="text" id="shopId" name="shopId"
+                               th:value="${shop.id}" th:utext="${shop?.name}"
+                               maxlength="10" placeholder="닉네임을 입력해 주세요." readonly/>
                     </td>
                 </tr>
-
                 <tr>
                     <th><label th:for="content">내용</label> <span class="es"></span></th>
                     <td colspan="3"><textarea class="form-control" id="content" name="content" cols="50"
